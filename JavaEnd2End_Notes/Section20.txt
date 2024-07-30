@@ -1,0 +1,48 @@
+Section 20 :
+============
+
+Files and directories 
+------------------------
+
+Refer : Eclipse -> Section20_FilesDirectories -> FileDirectoriesRunner.java
+
+For this section we will use funcitonal programming as its very easy as compared to traditional way of listing files.
+
+
+give me list of files at current locatin. Files.list returns stream. So on stream we can do for each. 
+
+Files.list(Paths.get(".")).forEach(e -> System.out.println(e));
+
+This will not list directories recursively. 
+
+To list directories recursively, we can use Files.walk. 
+
+We have to tell which path and how many levels we need to go through. 
+
+As retrun type of Files.* is stream, we can do normal stream related task as well, like filter...
+
+Refer same program. 
+
+e has a type.. for example List.of (1,2,3).stream.filter...e is of type int. 
+
+here e is of type path.. So we are fetching its string value first. 
+
+In 272-> step 02, bipredicate is discussed at last. I have not gone through it yet. 
+
+=====================
+
+Read file 
+
+Refer ReadRunner.java
+
+
+	//this reads full file all togeather and keep it in memory so its not a good idea for long file
+		List<String> fileLines = Files.readAllLines(pathOfDirectory);
+		
+	
+Remember that if I am using iterator first then it reads full file and file pointer goes to end of file. 
+if i comment out just sysout line within while loop of iterator, curosor will remain and last of file and will also not print other sysout statement. this is what I observed. 
+
+For write example :  it creates file as well if it does not exist. Also we need to referesht he folder if we are cheking from eclipse. 
+
+it not appending the data. its writing from begining. 

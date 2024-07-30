@@ -1,0 +1,288 @@
+Object Oriented Programming
+
+Section 7: 
+
+============
+
+Once we identify things/object invloved, we can identify data and actions for them for example : 
+
+Aeroplane 
+
+-> make, model, its poistion, airline <-- Data
+-> takeOff(), landing() <-- actions. 
+
+Airhostess 
+
+-> name, gender, age 
+-> serving(), instructionDelivery(), 
+
+
+Data is also called state of an object. For example age or position above can change with period of time. 
+Actions are call behavior 
+
+
+Structured Programming /Object oriented programming is :
+
+-> Thinking about objects
+-> Data(state)
+-> Action (behavior). 
+
+==============
+
+Class is a kind of template and object is an instance of that template. 
+Class can have defined attributes and then we can have object/instance of that class to assign values to the attributes. 
+
+For example 
+
+class Planet {
+      
+	  int distanceToTheEarth;    <-- attributes /data/state/fields/member variables/member data.  
+	  String name;
+	  double location;
+	  
+	  void rotate(){       <-- actions/behavior/methods. 
+	  }
+	  
+	  void revolve(){
+	  }
+}
+
+class PlanetCaller { 
+
+	public static void main (String[] args) {
+		Planet earth = new Planet();   <-- Instance/object to assign values to the defined template. 
+		Planet venus = new Planet();
+
+		earth.distanceToTheEarth = 10;     
+		venus.distanceToTheEarth = 20;
+		
+		earth.rotate()  <-- Perform action deifiend in template/class on earth. 
+	}
+} 
+
+
+
+
+Exercise :
+
+Online Shopping System 
+-------------------------
+
+Customer   --> object involved. 
+	name, address,gender --> data/state/member variable. 
+	login(), logout(), prefferedPaymentMethod() --> action/method
+
+Items/product 
+
+	name, price, category 
+	order(), changePrice()
+	
+Shopping cart 
+
+    items 
+    add(item), remove(item)	
+
+=======================================
+Person 
+------
+
+name, address, age , occupation 
+Qualities(), duties() , walk(), run()
+
+
+======================================================
+
+In Eclipse, we can change perspective (which all views should be visible) by Windows -> Perspective -> Open perspective  
+
+Select java perspective for coding and debug for debugging. 
+
+======================================
+
+When we create an instance/object of a class, in memory it create a copy of member variables. (can also refer books example in 'IntroductionToObjectOrientedProgramming'  project)
+
+For exmaple in MotorBike class, when we declare instance of ducati and honda, it has member variable speed. it creates copy of this speed for both instances in a memory. 
+
+-----------------------------------
+   Ducati      |   Honda
+     |         |     |
+      - Speed  |	  - Speed 
+-----------------------------------
+====================================
+
+
+Encapsulation :  (refer motorbike exercise)  -- Eclipse - 'IntroductionToObjectOrientedProgramming' project
+====================
+
+When we directly access member variables of another class from different class it breaks encapsulation. 
+
+For example when we access speed member variable of class MotorBike from MotorBikeRunner class like below : 
+
+MotorBike ducati = new MotorBike();
+ducati.speed = 10;  <-- read below 
+
+This violates encapsuation as we are accessing member variables of other method direclty. We are changing value of member variable of another method directly. Rule is to access member variable of given class from another class with the help of behavior/methods only. 
+
+To stop access of member variable from outside, we should make it private. 
+
+After making variable private we shold create a setter method to set value of member variable. 
+
+void setSpeed(int speed) {
+     this.speed = speed;  
+	 //here this keyword is referring to member variable speed. if we just use speed then it means local variable speed. 
+}  
+
+
+ to print the speed which was set, we can difine a getter method. 
+
+int getSpeed(){
+	return this.speed;
+}
+
+
+Violation of encapsualtioan example - IntroductionToObjectOrientedProgramming -> Books.java BooksRunner.java (member variable : noOfCopies )
+This fixed in MotorBike example (membervariable: speed ).   
+===========================
+
+Eclipse can generate getter setter automatically for private member variables.  right click -> source -> generate. 
+
+===================
+
+Default value for int variable is 0. So when you just print this.speed in setter, it says 0. 
+
+if I just called getter without setter on any object it will print 0 as default for int is 0. and this.speed will be 0. 
+
+================================
+
+Encapsulation with the help of getter setter also helps us to introduce some validation in setter method. Like if someone is setting value of member variable directly and if they set value as -100 (which is wrong for the valud of speed). But if we have setter method for that, then we can introduce validatation such as set only if value is > 0. We can prevent garbage value assignment to the member variables. 
+
+
+void setSpeed(int speed) {
+
+     if (speed > 0) {
+		this.speed = speed;
+	 }		
+}  
+
+
+====================================
+
+Encapsulation 2nd benifit ( and this keyword explanation)  :
+---------------------------
+
+If we want to write some generalize logic for member variable we can write. 
+
+For example : If we want to write a generalize logic to increase and decrease speed. 
+
+void increaseSpeed(int howMuch) {
+		this.speed += howMuch;
+}
+
+While calling : 
+
+ducati.setSpeed(50);
+ducati.increaseSpeed(100); // this refers to current object. Here speed was initially assigned as 50 for
+									// ducati object
+									// and now in increase speed, we are increasing current object speed by 100.
+
+here we are first setting the speed. That means setting this.speed (speed for current ducati object) and then increasing this.speed (means increasing it for current ducati object). This is done by means of 'this'. This refers to current object.  As we discussed above, as soon as we create an object, in memory it creates all the member variables for that particular object. and when we refer this, it means that particular object's member variable. 
+
+
+This is also separating business logic separate from actual caller method. In case of book example, I have increased no. of copies without encapsulation, there code is getting repeated. 
+
+Even changing of code after encapsulatin is easy, for example, incase of decreaseSpeed if I want to put a validation then if its encapsulated I can just introduce logic there. But in books example, I have to edit code for all books. 
+
+
+------------------------------
+
+Abstraction :
+---------------
+
+
+Encapsulation is not allowing access to the data(member variables). Just allowing operation (methods/behavior) to be performed on the data.  
+
+
+When we are riding bike we are not concerned or know about what's happening internally when we ride bike. This is called abstraction in real life. 
+
+For example when we run a program, we do not care about what going on at machine level like converting code to byte code or 0's and 1's, what jvm is doing, how its running on OS etc.. this is called abstraction. 
+
+In a way, abstraction is very much related to encapsuation. When we write method increaseSpeed, we are not actually concern about how its actually increasing the speed at backed. Abstraction is much more generic concept where we are actually hiding all the complexity.  user can call the method/api and assume it to work. They do not need to know how.  When we are riding bike, we assume machine to be working. Similarly when someone calls an api/method, they assume that method will do its job.  
+
+
+
+
+
+===============================================
+
+Constructure is a special method having name same as class (case sensitive)  and it does not have *any return type*. It helps to initialize something (member variables) when we declare an object.  
+
+For example : 
+
+MotorBike ducati = new MotorBike(); 
+
+//here member variable got intitizliaed automatically, but value of speed will be default of int i.e. 0. But if I want to initialize something when I declare an object, I can write a constructure. 
+
+
+MotorBike(int speed){
+  this.speed = speed;
+}
+
+And now I can call as follow :
+
+MotorBike ducati = new MotorBike(100); // this will initialize member variable/set initial stage  to 100 using constructre. 
+
+After introducing construcre as above, my normal object declaration with parameter was throwing an error.  Java sees declaring of constructor as taking control over constructor so it also removes default constructor. 
+
+MotorBike ducati = new MotorBike(); //throwing an error.  The constructor MotorBike is undefined. 
+
+So, I declared one more constructor which accepts 0 arguments like below. see below default constructor.  This is excalty same as default constructor. But we have to declare it (in order to make MotorBike() works, only if we need) as we have declared another constructor with an arugument. 
+
+
+MotorBike(){
+  
+}
+
+
+=======================
+
+Default Constructor 
+-------------------
+
+When we create an object it calls default constructor. 
+
+MotorBike ducati = new MotorBike()  <-- default constructor. 
+
+It is like 
+
+Class MotorBike {
+
+	MotorBike(){
+	}
+}
+
+If we declare as above and put some sysout statement it will print it as soon as we create an object.  
+
+
+=================================
+
+Calling constructor from another constructor. 
+------------------------------------------------
+
+
+Class MotorBike {
+
+    private int speed;
+	
+	MotorBike(){
+	  this(5);
+	  //here this means calling another constructor which accepts one argument. this will set speed to 5 as soon as we 
+	  //call MotorBike ducati = new MotorBike(); here value of speed will be 5. 
+	}
+	
+	MotorBike(int speed) {
+		this.speed = speed;
+	}
+
+
+}
+ 
+

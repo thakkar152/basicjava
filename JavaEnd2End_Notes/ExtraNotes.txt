@@ -1,0 +1,16 @@
+Extra notes : 
+
+To decalre another calss in same file, class has to be either static or without modifier(default).
+
+File xyz.java
+
+class abc {
+
+}
+
+class xyz {
+
+	public static void main(String[] args) {
+
+	}
+}

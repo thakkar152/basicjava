@@ -1,0 +1,77 @@
+Section 11
+---------------
+
+Dont forget that in for loop or in any codition it can be i = i +2 kind of condition as well instead of i++
+
+in for loop, none of the part is manadatory - initialization, codition or increment. 
+
+
+int i = 1;
+
+for (;i<=10;i++)  <-- valid. 
+
+for (int j = 1; j<=10;){  <--valid
+
+sysop();
+j++
+
+} 
+
+
+==============================
+
+Eclipse feature. 
+
+just type main and ctrl+space to get defination of main method.  other templates are sysout etc.. 
+
+We can create our own template from preference -> template -> java -> editor tempaltes. 
+
+==============================
+
+Syntax of while is similar to if condition. 
+
+int i =0 
+
+while (i <= 5) {
+System.out.println(i);
+i++
+} 
+
+================
+
+do while loop  -- code executes once - guanteed  -- its usage in Square_Cube_section_11_128
+
+do {
+	System.out.println(i);
+	i++
+} while (i<=5);
+
+
+==============
+
+Dont forget about break and continue in any loop. 
+
+Break - takes controller out of the loop. 
+Continue - stops that particular exeuction at that point and  continues the loop. 
+
+check good example of continue -- print even numbers in - Square_Cube_section_11_128
+
+
+==============
+
+Almost all program can be written by any loop, for , while or do while. 
+
+But which loops we can select can be determined by following questions : 
+
+Do you know how many times loops going to run ? 
+
+	- For loop. 
+	
+Do you just know when to end the loop ?
+
+	- While loop 
+	
+Do you want to exeucte loop at least once ? 
+
+	- Do While loop. 
+	

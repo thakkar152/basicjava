@@ -1,0 +1,70 @@
+Section 6 :
+===========
+
+Started Using IDE from this section. So all practicals will be in workspace now. 
+
+Used Eclipse IDE for Enterprise Java and Web Developers
+While creating class - eclipse gives also an option to create a main method
+
+In same package, we can create object of any class present in that package - check multiplication project. 
+
+Eclipse gives fantastic feature call save actions - what should happen when I save the file ? Eclise -> Windows -> preferences -> Type save action. Configure additional options is powerful !! It can enhace your code as well.  For adhering coding standard of the project, this is useful as well. 
+
+
+When doing method overload, if argument is different and if code is very similar then try to call one method from another method. Do proper refectoring if you see same line repeating. for example : 
+
+Do this : 
+
+public class Multiplication {
+
+	void multiplication() {
+		multiplication(5);
+	}
+
+	void multiplication(int table) {
+		multiplication(table, 1, 10);
+	}
+
+	void multiplication(int table, int start, int end) {
+		for (int i = start; i <= end; i++) {
+			System.out.printf("%d X %d = %d", table, i, table * i).println();
+		}
+	}
+}
+
+Instead of : 
+
+public class Multiplication {
+
+	void multiplication() {
+		for (int i = 1; i <= 10; i++) {
+			System.out.printf("%d X %d = %d", 5, i, 5 * i).println();
+		}
+	}
+
+	void multiplication(int table) {
+		for (int i = 1; i <= 10; i++) {
+			System.out.printf("%d X %d = %d", table, i, table * i).println();
+		}
+	}
+
+	void multiplication(int table, int start, int end) {
+		for (int i = start; i <= end; i++) {
+			System.out.printf("%d X %d = %d", table, i, table * i).println();
+		}
+	}
+}
+
+
+=============
+
+In eclipse, we have to double click to create breakpoint. 
+
+Ctrl+Shift+l -- all the shortcuts of Eclipse. 
+
+Eclipse fill the gaps by ctrl+space -- like just write sysout or just write main and click ctrl space, it will create main method. 
+==================================================
+Workspace projects : 
+
+FirstJavaProject
+Multiplication

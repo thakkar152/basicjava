@@ -1,0 +1,130 @@
+JDK - Java Development Kit. For actual development. Install. 
+Once JDK is installed, go to cmd and check java -version and jshell -version. Need to add to path variable only if command is not getting executed.
+Look for the installation jdk/bin/   -> copy this path and set path variable to enviornment variable -> system variable.
+
+
+jshell got introduced in java9
+jshell can be used online - tryjshell.org. It gets installed locally as well when you install java.
+To launch jshell - go to cmd and execute cmd jshell. You can directly type any command. Also direct math problmes. To exit -> /exit
+You can do all the normal programming in jshell. 
+Jshell preserve the values of variable across lines/enters. For example 
+
+jshell> int i = 10;
+i ==> 10
+
+jshell> int j = 30;
+j ==> 30
+
+jshell> System.out.println(i+j);
+40
+
+
+
+Literals means constant (or operands for static expression).  5 is int constant but 5.0 is float constant. So 5.0/2.0 will give answer in floating point. Java follows BODMAS rule. 
+
+
+Escape characters
+\ -- System.out.println("Hello \" world ")  => Hello "world
+\n -> new line character. 
+\t -> tab 
+\\ - slash itself. 
+
+
+Inbuilt Method :
+
+System.out.println
+Math.random()
+Math.min(23,45)
+
+
+printf -> Allows formating and printing values. printf also returns print stream with o/p like (java.io.PrintStream@4eft22d ). To get rid of this just call println above printf. 
+
+System.out.printf("5 * 2 = %d",5*2).println() 
+System.out.printf( "5x7 = %d 5x5 = %d", 5*7, 5*5)
+%s - string
+%d - integer
+%f - float 
+
+Java is strongly typed language. 
+
+
+Data Type -
+
+Number ( byte 8 bit -127 to 128, short 16 bit -32768 to 32767, int 32 bits , long 64 bit. ) 
+Float ( float 32 bit, double 64 bit) 
+
+	By default any decimal number in java is double. So when you do not give 'f' at end while declaring, java considers down type casting. Casting from double to stronging into float variable.  Double was chosen as default becuase it provides extra accuracy over float. However both float and double are not accurate and cannot be used for financial transaction. For declaring double as well you can use 'd' dobule var = 3.0d; but it wont have any effect as double is default. For accuracy we may use big decimal. 
+
+char (16 bit)
+boolean	
+
+   As a side note :  bit is a single binary number (0 or 1) when we say 8 bit, how many  0s and 1s will be there when we convert decimal to binary. I guess 1 bit is reserved for signed. 
+   
+String Concatenation is very costly operation. 
+
+
+10 = i is not correct as variable should be on left side only. 
+
+Compound assignment operator => i+=2 => i = i+2;
+
+====
+
+In jshell when we directly write expression like 4*3 it gives output like below. Here below $1 is variable created by java itself which you can use to get o/p again.
+
+jshell> 2*3
+$1 ==> 6
+
+jshell> $1
+$1 ==> 6
+============
+
+For even odd problem - i % 2 ==> remainder will be 0 or 1.  Also always mod gives answer which is less 1 than the actual operand (i.e. 2 here).  Here it will be 0 or 1 (as mod number is 2) .  Division cannot happen if its less than what number is passed, thats why its remainder. 
+
+
+=============
+
+Prime number
+
+Convert any number into even number by multiplying that by 2. 
+To print all even/odd number I can use mod in for loop or even increment loop by 2 and start with 1 or 2. 
+
+=================
+We can keep initialization blank and also can give semicolon at the end of for loop : 
+
+jshell> int i = 1;
+i ==> 1
+
+jshell> for ( ; i<=10 ; i++);   //<== Its called empty statement.
+
+jshell> i
+i ==> 11  
+   
+   
+==============	
+
+Passing multiple variable in a loop statement. You can specify loop condition only once. Also when I tried, I was not able to declare vairable inside loop. Hence first declared variable and then used it. 
+
+jshell> int i;
+i ==> 0
+
+jshell> int j;
+j ==> 0
+
+jshell> for ( i=1,j=3 ; i <=10;i++,j++);
+
+jshell> i
+i ==> 11
+
+jshell> j
+j ==> 14
+
+
+
+==========================
+
+Name of variable and method name follows same rule camel case starting with small case - printHelloWorldTwice()
+Class name starts with capital and rest camle case 
+
+This rules are also followed by inbuilt java functions. (Math is a class name - Math.random())
+
+======================

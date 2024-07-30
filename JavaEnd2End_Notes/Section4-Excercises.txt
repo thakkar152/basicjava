@@ -1,0 +1,102 @@
+Section 4 Exercises : 
+
+Argument passing example :  Also method overloading here. Same name different parameters. 
+------------------------------------------------------------------------------------------
+
+jshell> /list thisIsAnExampleOfMethod
+
+    void thisIsAnExampleOfMethod(String printThis){
+       System.out.println(printThis);
+       System.out.println(printThis);
+    }
+	   
+	   
+    void thisIsAnExampleOfMethod(int noOfTimes, String printThis){
+       for (int i = 1 ; i <= noOfTimes ; i++){
+          System.out.println(printThis);
+       }
+    }
+
+
+
+Print numbers from 1 to n 
+----------------------------
+
+jshell> /list printNumbers
+
+    void printNumbers(int lastNumber){
+       for (int i = 1 ; i <= lastNumber ; i++){
+          System.out.println(i);
+       }
+    }
+	
+
+Print squares of number from 1 to n
+--------------------------------------------
+
+jshell> /list printSquareOfNumbers
+
+    void printSquareOfNumbers(int lastNumber){
+       for (int i = 1 ; i <= lastNumber ; i++){
+          System.out.println(i*i);
+       }
+    }
+	
+Multiplication Table by passing an argument 
+--------------------------------------------
+
+jshell> /list multiplication
+
+    void multiplication(int table){
+       for(int i = 1;i<=10 ; i++){
+	      System.out.printf("%d X %d = %d",table,i,table*i).println();
+	    }
+    }
+	
+
+Sum of two numbers. Passing multiple argument :
+-----------------------------------------------
+
+jshell> /list sum
+
+    void sum(int a, int b){
+         System.out.println("Sum is :" +  (a+b));
+    }
+	
+
+
+Retruning from a method : return a sum of two aruguments
+---------------------------------------------------------
+
+jshell> int  sum(int a, int b){
+           return a+b;
+		}
+
+jshell> int getSum = sum(5,4);
+getSum ==> 9
+
+jshell> getSum
+getSum ==> 9	
+
+
+
+       int sum(int a, int b, int c){
+          int sum = a + b + c ;
+          return sum;
+       }
+	   
+int d = sum (22,33,44);
+d ==> 99	   
+
+
+**Calculating thrid angle in the triangle : Total of 3 angles in triangle is always 180
+--------------------------------------------------------------------------------------
+
+jshell> int triangle(int a, int b){
+   ...> return (180 - (a+b));
+   ...> }
+|  created method triangle(int,int)
+
+jshell> triangle(40,50);
+$33 ==> 90
+

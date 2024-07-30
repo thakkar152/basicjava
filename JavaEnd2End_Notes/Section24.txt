@@ -1,0 +1,237 @@
+
+-Initial Java version - JDK 1 - Jan 1996
+-then JDK 2,3,4  
+-Another major release was J2SE 5.0 - Sep 2004
+-Java SE 8 (LTS) - March 2014 ---> Most important Java release. (included functional programming - Lamda, stream, method references...)
+-Java SE 9 - Sep 2017 
+-Java SE 10 - March 2018 ---> Java switched strategy to change release cycle to time based instead of feature based. 
+
+Now release is every 6 moths. 
+
+SE 11 (LTS) - Sep 2018 
+SE 12 - March 2019
+...
+SE 16 - March 2021    
+
+
+Java releases LTS (Long term support release) every 3 years. 
+
+
+==================================================
+
+Features introduced in java
+------------------------------
+
+J2SE 5 - introduced -  Enhanced For loop, Generics, Enums, Autoboxing. 
+Java SE 8 - Functional programming Lamdas & Stream, Static method in interface. 
+SE 9 -- Modularization (Java Platform Module System). 
+SE 10 - Local Variable type inference 
+SE 14  Switch Expression (Preview in 12 and 13) (not switch statement but switch as an expression) 
+SE 15 -- Introduced Text Block. (Preview in 13) 
+SE 16 -- Record Classes (Preview in 14 and 15)
+
+
+===============
+
+Modularization
+----------------
+
+JDK modularization was introduced in Java 9. 
+Post Java 8, rt.jar size incresed by more than 60 MB (rt - runtime).
+
+Directly in cmd if you type : 
+
+java --list-modules, it will give list of all the jdk modules as well as java modules. You do not need to use full jdk from java 9 onwards. You can make use of particular module itself. 
+
+It helps to build more modularized  and encpasulated application. 
+
+module name starting with java are actually programming module and names starting with jdk are actually kind of tools like jdk.jshell, java.logging, jdk.compiler, java.sql. 
+
+If I am not using db then I dont need module java.sql. If I dont want logging then I will omit java.logging. 
+
+Some modules are dependent on other modules. 
+
+You can find dependency of any modules by typing java -d <module name>
+
+C:\Users\nirav_karia>java -d java.sql
+
+java.sql@17.0.6
+exports java.sql
+exports javax.sql
+requires java.transaction.xa transitive
+requires java.base mandated
+requires java.logging transitive
+requires java.xml transitive
+uses java.sql.Driver
+
+ 
+requires are module here. Java.base is base module which most of them will require. 
+
+
+====================================
+
+unmodulirized applicaiton - Refer project - section24_modularization_combined. While creating this project, in create project screen, we have not checked create module-info.java file. 
+
+This is simple unmodularized program. 
+
+Here we have written MySortingUtil and made use of bubble sort. Expectation is that, consumer will make use of MysortingUtil for any sorting needs. In future writer of MysortingUtil can decide to switch algorithm and inseted of bubblesort, start using quicksort. Program will run perfectly fine. 
+
+If somebody decides to directly make use of BubbleSort class for sorting, they can do because of public class. output will be also same but they wont get changes in alogrithm (that is change of quicksort).  Refer DirectConsumer.java
+
+//MySortingUtil mySortingUtil = new MySortingUtil();
+BubbleSort mySortingUtil = new BubbleSort();
+
+This is the problem with unmodularized application. People can use it. 
+
+================
+Splitting service and consumer in jars. 
+
+
+Even if I create a separate jars, we will not able to stop user from accessing direct bubble sort algorithm. 
+
+For example (refer eclipse): 
+
+Lets create two jars - Service jar and consumer jar. 
+
+Create project modularization-service-jar -> copy alogrithm package and util package here.
+Create project modularization-consumer-jar -> copy consumer package here.  (you wont be able to access mdoularization-service-jar without adding it to classpath of modularization-consumer-jar). Right click on project -> build path -> configure -> Project tab -> click on classpath -> add classpath -> select service jar. 
+
+So as you can see, both directconsumer.java and mysortingutilconsumer.java runs as it is. So no way to stop user from using directly bubblesort.
+
+splitting service and consumer jar is not a solution. 
+
+=================================================================================
+
+ 
+Lets see how we can split service and consumer in modules now !!  refer com.udemy.modularization.service and ...consumer projects. 
+
+
+generally hypen(-) is not allowed in naming of java file. But for module-info.java this is an exception. 
+
+
+1) Create a java project -> name of module should be like name of package -> com.udemy.modulariztion.service -> tick create module-info.java file. 
+2) Create a java project -> name of module should be like name of package -> com.udemy.modulariztion.consumer -> tick create module-info.java file. 
+
+
+difference between normal java project and java module is we have module-info.java file in module project. 
+
+Once you create consumer module, it will throw and error as it needs access to service module. 
+
+We have to explicity mention require com.udemy.modularization.service; in module-info.java. And like we had added class path in earlier project, similarly we have to add service in module path. 
+
+Still mysortingutilconsumer.java will giver error about logging. Because to use logging we have to include logging module. Because its modularization. update module-info.java to use logging module. 
+
+
+Now even though I have specified required com.udemy.modulariztion.service in module-info.java and also mentioned in import statemnt. Still it throws and error. Because we have to explicity give permission to use service module in module-info.java of service module. This is modularization. We will not be able to use module unless module gives permission. We can give permission by specifiyng 'export'
+
+exports com.udemy.util;  --> we are giving permission to use util only.We are not giving permission to use algorithm. So directconsumer will throw error where as mysrotingutil.java will work fine. 
+
+new provider of thirdparty may provide modules instead of jars in future with control so we can make use of that moduel in more control manner rather than directly accessing few things. -- as per me. 
+
+This can be base for microservices. --> need to check. 
+
+We can also use 'require transitive'. This means if consumer module has included logging by specifying require transitive java.logging then if somebody uses consumer module, then they will also get access to logging. 
+
+module also helpful to control which all package refelction should be allowed -- need to study further about reflection. 
+
+========================================
+
+New Java API  -- SEciton24_NewJavaApi -> com.udemy.newapi.a -> CopyOfApi.java
+
+1)List.of --> inroduced in java 9. Immutable list. 
+
+2) java introduced copyOf method for List, Set and Map from Java 10 onwards. If you want to create immutable list, set and map from existing list,map or set then we can use copyOf method.  
+
+First if we want to construct a mutable list in one method and then if we want to pass an immutablable list to another method so that another method cannot modify it then we can make use of copyOf. 
+
+3) JDK 11 - readstring, writestring file operation. We can directly pass path of file to read a file. refer .b package. 
+
+4) JDK 11 - > Predicate.not. refer .c package
+
+5) String Utility methods -> refer .d package
+
+to my surpise isBlank() method of string was introduced in jdk 11 ! 
+
+6) Local variable type inference :  -- refer package .e
+
+Since jdk 10, we can use 'var' instead of variable type anywhere. but its not advisable to use for code redability purpose.
+
+Java inferes type at compile time. 
+
+you can add final as well to var... final var variableName = "abc";
+
+we can use var in loop as well. 
+
+var is not a keyword. 
+
+we cannot assign null to var. 
+
+var abc = null --> not allowed. 
+
+VAR IS NOT ALLOWED FOR MEMBER VARIABLES (CLASS VARIABLES) 
+
+var improves readability of chain expression. but use it carefully it should not hamper the readability of code. 
+
+
+7) Switch expression. -- package .f
+
+Earlier we looked at switch statement. 
+
+this was released in JDK 14. 
+
+Preview of this feature was released in jdk 12 and 13. As java made release cycle small they sometime releases feature as preview. We could have used this feature in jdk 12 and 13 as well but by enabling preview flag. Kind of beta it seems. 
+
+
+siwth statement has fall through. to stop fall through we use break. but in switch expression there is not fall through. 
+
+8) Text block. -> package .g
+
+Introduced in jdk 15. 
+
+Its really hard to escape characters in a string and its also readability issue. 
+
+So java introduced text block. whatever is inside """ (3 double quotes) is considered as text block and no need to escape special characters.
+
+After """ expected character is new line so it should be one enter and then start with actual string. 
+
+Formatting is also retained in the text block. 
+Trailling white space is stripped off. 
+
+Whatever operation we can perform on string can be performed on text block as well. 
+
+
+9) Records -> .h package. 
+
+Java introduced recrods in Java 16. 
+
+All the beans generally have same things -> 
+
+For example : AddressBean will have -> constructor, few variables, getters and setters for those variables, equals method , toString, hashcode 
+
+to elimnate verbosity in java beans, java introduced Record. 
+
+You can also create custom implementation as well in the record. 
+
+only doing below creates a bean of Person with three instance variable and one constructor, accessor methods (i.e. getter/setter), toString, equals  hashcode etcc..
+
+record person(String name, String email, String phoneNumber) {
+		
+	}
+
+in records, you can add static fields, static initializer, static methods within block, but you cannot add instance variables or instance initializer. -- need to understand in deep. 
+
+compact constructor are only allowed in record and not in default beans. -- need to understand more. 
+
+
+
+
+
+ 
+ 
+
+
+
+		
+
+
+

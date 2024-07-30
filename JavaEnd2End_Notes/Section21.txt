@@ -1,0 +1,105 @@
+concurrency :
+
+=========
+
+if there is a method which just increment value of global variable. But what will happen if two threads simultenously try to access same method ? There will be issue of concurrency.
+
+
+for such purpose we can make any method thread safe with 'syncronized' key workd.
+
+syncronized public void increment(){
+  i++
+  
+}
+
+
+Refer ConcurrencyProblemSection21->default package. 
+
+i++ operation is not atomic. means kind of not thread safe. 
+
+Problem with synchronized method is , if I have two synchronized methods say increamentI and increamentJ... at a time thread will be running only one syncronzied method.  even thou both methods access different vairable, at a time only one syncronized methods will be running. so thread willl wait for other syncronized run to finished.  lets say if we have 100s of syncronized method then performance impact will be huge.
+
+with synchronized keyword everything is synchronized. That means only one thread is allowed to run any one synchronized method. that means if thread 1 is already accessing method A then then thread 2 wont be able to access method B (even thou method b is total different operation in that class)
+
+
+Refer ConcurrencyProblemSection21->default package -> BiIncrementer.java (no runner for this. its just an example). 
+
+To over come above issue, we have locks and ReEntrantLocks. 
+
+
+Locks and ReEntrantLocks
+--------------------------
+
+We can say getlock to acquire lock for any particular piece of code and then we can release the lock?
+
+We can get locks on instance basis. Means instance : getLockI (lock for i++ method) is a separate instance then getLockJ( lock for j++ method).
+
+So if two threads are waiting for I and J, then both thread can acquire separate instance of lock and proceed simultenously.
+
+ConcurrencyProblemSection21 -> package : com.udemy.lockreinterant-> BiIncrementerWithLocks.java
+
+When I implement locks over any piece of code, syncronized keyword on that method is not required. Piece between lock and unlock is syncronized only. 
+
+In this case, Two thread will only wait in case they are waiting to execute same piece of code.
+
+There are other methods as well for lock, like lock.try -> try to aquire lock, if aquired write logic for that if not, write logic for that. 
+lock.tryLock(time) -> wait to acquire lock for this much time. 
+
+//lockForJ.tryLock();
+//lockForJ.tryLock(10, TimeUnit.SECONDS)
+
+
+i++ is not an atomic operation. It involves 3 steps 
+
+-> Get I 
+-> Increment I 
+-> set new value of I
+
+
+Java provides AtomicInteger class to manage above 3 steps atomic. 
+
+ConcurrencyProblemSection21 -> package : com.udemy.lockreinterant-> BiIncrementerWithAtomicInteger. 
+
+this kind of class specifically help for increment operation. Here no need of syncronized or locks for this simple increment operation. Increment will be thread safe always if we use instance of this class. 
+
+Other methods are also avialable like AtomicLong, AtomicBoolean etc..
+
+To increment value, we use method getAndIncrement() of class AtomicInteger. 
+
+
+============
+
+HashMap is not threadSafe so to be threadSafe -> use ConcurrentHashMap().
+
+HashTable is also threadsafe but in example : 
+
+ConcurrencyProblemSection21 -> package : com.udemy.lockreinterant-> ConcurrentHashTable.java, we have used local vairable occurrences.get(). So it losses its concurrency. 
+
+LongAdder is similar to to AtomicLong but with some additional internal benfits. 
+
+
+ConcurrentHashMap provides an additional method : occurence.computeIfAbscent -> this accepts lamda funciton as an argument. it reduces all code. 
+
+ConcurrencyProblemSection21 -> package : com.udemy.lockreinterant-> ConcurrentHashMap.java
+
+
+Remember concurrenthashmap is of concurrentmap type interface and hashtable/hashmap is of type map interface. 
+
+
+Earlier version of concurrenthashmap was HashTable for concurrency. So in HashTable implementation, java had used 'sychronized' method but concurrent hashmap uses locks.
+
+So concurrenthashmap is fast !!
+
+============
+
+collections based on copyOnWrite algorithm :
+
+
+CopyOnWriteArrayList -  
+CopyOnWriteArraySet -  
+
+
+implements List Interface itself. So it does not provie any new operation. whatever operation we can do on list or linklist can be performed on this list as well. But there is a difference on how it is implemented internally. It is a threadsafe variat of ArrayList.  This kind of list copies whole list before doing any operation. So its very costly operation. So it is efficient only when there are more reads and less writes. We do not need to syncronize or have locks for read operation where this kind of ArrayList is used. 
+
+CopyOnWrite arrayList first copies existing array and then writes to it. So till the time it copies and writes, other thread may continue using old arraylist for read operaiton. Then it switches old array with new copied one. So it syncronizes only write operations. 
+

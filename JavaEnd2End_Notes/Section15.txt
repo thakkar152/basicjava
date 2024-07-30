@@ -1,0 +1,521 @@
+Section 15 - Collections
+--------------------------
+
+Why do we need Collections?
+
+Supppose we have an array[15] of 15 elements. Now there is a need to introduce one more element in the middle say at position array[5]. As we know, we cannot add an element in array easily. We have to do lot of processing, 
+
+Like create a new array with 16 element, copy first 5 element in new array from old array. Introduce new value at array[5]. and then copy remaining elements from old array to new array. 
+
+This is why Java introduced ArrayList. We can easily remove or add elements. ArrayList is a type of collection and its based on underlying array Data Structure. 
+
+
+Java provides many built in collections so that you dont have to focus on designing low level data structures but just focus on business logic. 
+
+Important collections : 
+
+List
+Set
+Queue
+Map
+
+Other collections : Trees, Linklist. 
+
+Java provides implementation of these data structures called collections. Low level operations on data structure (like adding an element/removing an element) is complex hence java has provided these collections to make life easy. 
+
+List Interface
+-------------
+
+List is an ordered collection. You can decide which element to be inserted at which position (if position not specified then automatically elements gets added at the end). Position is being maintained in the list. 
+
+List allows duplicates. 
+
+
+ArrayList implements List inteface...So we can declare as below as well. 
+
+List<String> countries = new ArrayList<String>();
+
+(same as Flyable interface.. I can do Flyable flyingobject = new Bird() and can also do Bird birds = new Bird()). 
+
+
+List is an interface. So you cannot create object of List direclty => List l = new List(). Not allowed. 
+
+
+But you can use static method (List.of) of List to create and initialize list. You can directly call static method with Classname.method name and this is true for abstract class as well. 
+
+List l = List.of("apple","kaju",123);
+
+List<String> fruits = List.of("apple","Kaju");   
+
+This List.of got introduced in Java 9. Initially, we had to create an ArrayList or any type of list implementing List interface and then add an element. 
+
+in collections , we have size() method. In Arrays we have length method. 
+
+fruits.size();
+
+fruits.get(1);  --> index starts with 0
+
+fruits.contains("Kiwi")  --> false. 
+
+fruits.indexOf("kaju");
+==> 1
+
+fruits.indexOf("Kiwi");  --> non existence will return -1
+
+
+Immutable list and mutable list
+-----------------------------------
+
+Whatever we create with 'of' static method List.of or Map.of or Set.of those data structures are immutable. 
+
+We cannot add an element or remove an element from this immutable list !!!
+
+jshell> List<String> countries = List.of("Canada","India","USA");
+countries ==> [Canada, India, USA]
+
+jshell> countries.add("Aruba");
+|  Exception java.lang.UnsupportedOperationException
+|        at ImmutableCollections.uoe (ImmutableCollections.java:71)
+|        at ImmutableCollections$AbstractImmutableCollection.add (ImmutableCollections.java:75)
+|        at (#8:1)
+
+
+
+
+On other hand : We can create mutable list as follow. 
+
+jshell> List<String> countries = new ArrayList<String>();
+countries ==> []
+
+jshell> countries.add("India");
+$10 ==> true
+
+jshell> countries.add("Canada");
+$11 ==> true
+
+jshell> countries.add("USA");
+$12 ==> true
+
+jshell> countries;
+countries ==> [India, Canada, USA]
+
+jshell> countries.remove("USA");
+$14 ==> true
+
+jshell> countries
+countries ==> [India, Canada]
+
+
+Similarly,just as above,  we can create LinkedList or Vector 
+
+
+I can also create ArrayList out of immutable List. 
+
+For example , 
+
+jshell> List<String> countries = List.of("Canada","India","USA");
+countries ==> [Canada, India, USA]
+
+jshell> List<String> countriesArrayList = new ArrayList<String>(countries);
+countriesArrayList ==> [Canada, India, USA]
+
+This array list is mutable !!
+
+
+--------------------------
+
+Underneath datastructure used for ArrayList and Vector is Array. 
+But underneath datastructure used for LinkedList is LinkedList
+
+
+LinkedList
+
+
+Top Element <-> Element1 <-> Element2 <-> Element3 <-> Element4
+
+Here previous element has link to the next element. LInklist is doubly linked forward and backword. 
+
+If I want to access element 3 then I have to go through 1,2 first and then reach to 3rd. So accessing element in LinkedList is costly operation. i.e. Iterating in linkedlist is costly operation
+
+But if I want to delete Element3 then I just need to point Element2 to Element4 directly. or else If I want to add an element in between 1 and 2 then I just need to change link of 1 to point to 'new2' and new2 to 2. 
+
+Top Element <-> Element1 <-> Elementnew2 <-> Element2 <-> Element3 <-> Element4
+
+
+As we discussed above, inserting and removing element from Array is costly. But accessing elment from an array is easy.  So as underlying data structure for ArrayList and Vector is Array, this applies to them as well. 
+
+But in linkedlist, inserting and removing operation is easy but accessing an element by an index is costly operation. 
+
+
+If we have few insertion deletion but more accessing then go for ArrayList. 
+If we have more insertion deletion but less accessing then go for LinkedList.
+
+
+As a side note, we can check in which version ArrayList or any interface/class go introduced by going to that class and check comment at the strting. It says ..since 1.2 etc.. so it is there since java 1
+
+ArrayList and Vector both has Array as underlying datastructure. Here is the difference between them :
+
+If you check methods under Vector, then you will find that most of the methods has 'Syncronized' word. So Vecotor is thread safe. Also means that Vecor has performance cost. But in ArrayList you wont find word syncronized even for the same method which is there in vector. 
+
+Use vector when you are sharing data between multiple threads. Vector is most basic operation to provide thread saftey and syncronization. 
+
+Refer Eclipse - CollectionsExample. 
+
+
+Apart from using for and enhanced for loop, we can use iterator as well 
+
+Iterator countriesIterator = countriesArrayList.iterator();
+
+		while (countriesIterator.hasNext()) {
+			System.out.println(countriesIterator.next());
+		}
+		
+
+Which loop (for, enhanced for or iterator) we should use when 		
+
+
+If you are making any changes in the list while iterating through it, then use iterator. It will not give accurate result in for loop if you are removing anything from the list. 
+
+if you just want to do some operation on the list without modifying then go with enhacned for loop. 
+
+To remove an element in iterator, use iterator.remove()
+
+
+If you want to perform some string operations such as endsWith or contains, then iterator should be defined as String iterator. 
+
+Iterator<String> countries = countriesArrayList.iterator();
+
+=================================
+
+Inside List, we cannot store premitive data type like int. Everything gets autoboxed to Wrapper class. 
+
+jshell> List mixedType = List.of("Abc",'A',1,2.0);
+mixedType ==> [Abc, A, 1, 2.0]
+
+
+jshell> mixedType.get(2) instanceof Integer;
+$4 ==> true
+
+jshell> mixedType.get(1) instanceof Character;
+$5 ==> true
+
+
+----------------------------------------
+
+Here indexOf works fine because there are not overloaded method of indexOf, there is only one method of indexOf. So 101 gets autoboxed (from object) to Integer. But remove will not work as remove has two methods, one excepts int and one object. So if I give 101, it considers it int index and throws error. So to remove with passing actual element, we have to autobox it to Integer. 
+
+jshell> List<Integer> intList1 = List.of(100,101,102,103);
+intList1 ==> [100, 101, 102, 103]
+
+jshell> List<Integer> intList = new ArrayList<>(intList1);
+intList ==> [100, 101, 102, 103]
+
+jshell> intList.indexOf(101);
+$10 ==> 1
+
+Signatures:
+boolean List<E extends Object>.remove(Object o)
+E List<E extends Object>.remove(int index)
+
+jshell> intList.remove(101);
+|  Exception java.lang.IndexOutOfBoundsException: Index 101 out of bounds for length 4
+|        at Preconditions.outOfBounds (Preconditions.java:64)
+|        at Preconditions.outOfBoundsCheckIndex (Preconditions.java:70)
+|        at Preconditions.checkIndex (Preconditions.java:248)
+|        at Objects.checkIndex (Objects.java:372)
+|        at ArrayList.remove (ArrayList.java:536)
+|        at (#11:1)
+
+jshell> intList.remove(Integer.valueOf(101));
+$12 ==> true
+
+-------------
+
+sort is the static method present in Collections class. So Collections.sort
+
+Refer Collections -> Package -> java.udemy.collections
+
+In this example : 
+
+Collections.sort(object) -> This does not work as we need to implement comparable interface -> compareTo method to let java know basis of comparision. 
+
+Collections.sort(on ArrayList<Integer>) -> Works because Integer already implements comparable interface and overrides compareTo. Check Integer.class
+
+Comparable is an interface, compareTo is the only method in this interface. 
+
+Check comparable present in student class. We are comparing based on integer comparable method. 
+
+I can implement multiple class which implements 'Comprator' interface to compare objects in different ways. 
+
+For example I can make one comparator class which compares object based on name. I can implement other comparator class which compares student with id but in descending order etc...
+
+We can pass this comparator while using sort method of collections or EVEN in arraylist.sort method. 
+
+
+As a side note, comparator interface has two methods, compare and equals. Its even ok if we just override one method compare and not override equals because object class (super class of all class) already has implementation for equals. 
+
+
+Comparable can be implemented for any object class such as student. And any one of the field can be used to sort array/arraylist of objects. 
+
+Comparator can be used directly with any collection such as arraylist /queue etc. 
+
+There can be only one comparable but if we want multiple ways for sorting we have to implemente comparator. 
+
+ 
+
+
+=================
+
+Set interface (also implements Collections like List interface). 
+
+-> Allows only unique elements
+-> This does not provide posistional access like list. 
+-> Set does not maintain order.
+-> No adding or removing based on position.  
+
+HashSet and TreeSet are implementation of Set Interface. (just like ArrayList was an implementation of List). 
+
+Order is already lost :
+
+jshell> Set<String> fruits = Set.of("Apple","Banana","Cantaloupe");
+fruits ==> [Cantaloupe, Banana, Apple]
+
+//again order changed. 
+
+jshell> Set<String> fruitsHashSet = new HashSet<>(fruits);
+fruitsHashSet ==> [Apple, Cantaloupe, Banana]
+
+
+// no adding of element at particular index. 
+
+jshell> fruitsHashSet.add("Dragon");
+$24 ==> true
+
+jshell> fruitsHashSet.add(5, "Dragon");
+|  Error:
+|  method add in interface java.util.Set<E> cannot be applied to given types;
+|    required: java.lang.String
+|    found: int,java.lang.String
+|    reason: actual and formal argument lists differ in length
+|  fruitsHashSet.add(5, "Dragon");
+|  ^---------------^ 
+
+
+----------------------------------
+
+Datastructure behind ArrayList is array. 
+Behind LInkedList is LinkedList
+Behind Hash is hashing. 
+
+Hashing provides ease of accessing element like array but with benifit of adding and removing elements fast like LinkedList. 
+
+
+Hashing stores elements at particular position based on hashing function. 
+
+For example if we have total 13 positions (buckets) and if we implement hashing functions which everytime calculates mod of 13 to store any number then : 
+
+13 will go at 0th bucket  (13 Mod 13). 
+14 will go at 1st bucket   (14 mod 13). 
+2 will go at 2nd position (2 Mod 13 is 2)
+3 will go at 3rd Postion (3 mod 13 is 3). 
+
+Here elements will share position as well. For example, 15 and 2 both will be at 2nd position. It will be like creating a list at postion 2. So there will be kind of list at all position. 
+
+Hashing function is called hashcode(). Object method also has implementation of hashcode().
+
+For adding, removing , searching operation , we use same hashcode(). 
+
+Efficiency of operation dependeds on efficiency of our hashcode() function. 
+
+--------------
+
+Tree 
+-----
+
+-> Help to store data in sorted order 
+
+								45
+                                                                /\
+                                                              40  55
+							     / \   /\
+							    35	42 50 60
+							
+-> In tree (red black tree) shorter element remains	on left hand side and larger remains on right hand side.  
+Sectin 15 - 206. 
+						
+-> Searching of larger, shorter, shorted element in tree is very easy.
+
+-> Even addition, deletion and searchig is not that costly. 
+
+-> For example I want to search for 50. I will start with 45 , now 50 is greater than 45 so I will move on right. I will find 55. 55 is smaller than 50 so I will move on left. So in 3 operation I can search for 50. Similarly adding and deleting. So its not that costly. 
+
+
+--------------
+
+HashSet, LinkedHashSet and TreeSet. 
+
+
+HashSet -> Dosent care about the order. 
+LinkedHashSet -> Stores number in the order of insertion. 
+TreeSet -> Stores number in the sorted order. 
+
+Out of these 3 sets, HashSet is the most efficient one. 
+
+---Eclipse - Collections -> pakage :  com.udemy.linkhashtreeexample; -
+
+
+Operation that can be performed on LinkedHashSet and HashSet is same as collection. 
+
+But TreeSet provides more operations becuase it is a sorted.  TreeSet implements NavigableSet as well along with Set interface. 
+
+Extra operations apart from general collection are in NavigableSet interface. 
+
+jshell> TreeSet<Integer> numbers = new TreeSet<>(Set.of(12,34,50,55,89));
+numbers ==> [12, 34, 50, 55, 89]
+
+jshell> numbers.lower(51);  // lower than specified number from the set
+$2 ==> 50
+
+jshell> numbers.higher(51); // higher than specified number from the set
+$3 ==> 55
+
+jshell> numbers.subSet(0,50); // numbers between the specified range
+$4 ==> [12, 34]
+
+jshell> numbers.subSet(12,50); // numbers between specified range .. lower limit including, uperlimit excluding
+$5 ==> [12, 34]
+
+jshell> numbers.subSet(12,true,50,true);  // numbers between specified range .. lower limit and uperlimit including
+$6 ==> [12, 34, 50]
+
+jshell> numbers.headSet(50,true); // range of numbers less than specified. default true - including.
+$7 ==> [12, 34, 50]
+
+jshell> numbers.tailSet(50);  // range of numbers greater than specified. default true - including.
+$8 ==> [50, 55, 89]
+
+
+---------------------
+
+
+Queue Interface ..
+-----------------
+
+
+Queue stores data in natural sorted order. means sorted in way you want to process it. For example : To-Do List. Whatever i want to process it first, will be there on the top then next etc.. 
+
+Queue implements Collection interface so all the methods of collection is avaialble in Queue. 
+
+Apart from collections methods, it also provides few additional methods. 
+
+We can also make use of comparator as well so we can specify our own order. (Comparator may be available for other collections as well). 
+
+
+PriorityQueue implements Queue 
+PriorityQueue -> stores data in natural sorted order. For custom order we can make use of comparator. 
+
+
+
+jshell> Queue<String> animals = new PriorityQueue<>(List.of("Monkey","Donkey","Zebra","Dog"));
+animals ==> [Dog, Donkey, Zebra, Monkey]
+
+Priority Queue is default sorted as seen above. 
+
+jshell> Queue<Integer> numbers = new PriorityQueue<>(List.of(14,33,4,67));
+numbers ==> [4, 33, 14, 67]
+
+
+To add an element to the queue, we can either use add or offer. Generally we use offer. 
+
+animals.offer("Kutro");
+
+This also gets added in queue in sorted order (capital K and k will make difference). 
+
+jshell> animals;
+animals ==> [Dog, Donkey, Kutro, Monkey, Zebra]
+
+Queue works like queue at movie theater. We can poll and remove that element. Means poll and process. 
+
+jshell> animals.poll();
+$20 ==> "Dog"
+
+jshell> animals
+animals ==> [Donkey, Monkey, Kutro, Zebra]
+
+jshell> animals.poll();
+$22 ==> "Donkey"
+
+jshell> animals
+animals ==> [Kutro, Monkey, Zebra]
+
+
+======Eclipse Refer Collections -> com.udemy.queues  -> how comparator can play a role in changing the order of queue. 
+
+============
+
+Maps
+
+Map does not implements collections. So all the operation of collections does not apply to map. 
+
+Key-value pair. 
+
+Most of the method of Map Interface is related to Key-value. 
+
+
+Implementation of Map 
+
+HashMap  -> underlying datastructure hashing (hashcode()) - unsorted, unordered, allows null as a key value.
+LinkedHashMap -> Maintains order of insertion, slower insertion or deltion, faster iteration/looking up.
+TreeMap -> sorted order is maintained. It implements navigablemap (just like NavigableSet). 
+HashTable  -> Syncronized, thread safe version of hashmap. does not allow null as key value. unsorted, unordered.
+
+
+jshell> Map<Integer,String> occurance = Map.of(5,"a",3,"b",4,"d");
+occurance ==> {5=a, 4=d, 3=b}
+
+OR
+
+jshell> Map<Integer,String> trial = new HashMap<>();
+trial ==> {}
+
+jshell> trial.put(1,"saru");
+$26 ==> null
+
+
+jshell> occurance.get(5);
+$29 ==> "a"
+
+
+jshell> HashMap<Integer,String> hm = new HashMap<>(Map.of(3,"A",10,"B",12,"C"));
+hm ==> {10=B, 3=A, 12=C}
+
+Hashmap doesnt care about order or sorting and hece it is efficient. 
+
+
+jshell> LinkedHashMap<Integer,String> lhm = new LinkedHashMap<>();
+lhm ==> {}
+
+jshell> lhm.put(44,"z");
+$34 ==> null
+
+jshell> lhm.put(12,"t");
+$35 ==> null
+
+jshell> lhm.put(54,"s");
+$36 ==> null
+
+jshell> lhm
+lhm ==> {44=z, 12=t, 54=s}
+
+LinkedHashMap maintains insertion order. 
+
+TreeMap is sorted map by key: 
+
+jshell> TreeMap<Integer,String> lhm = new TreeMap<>(Map.of(31,"A",14,"B",22,"C"));
+lhm ==> {14=B, 22=C, 31=A}
+
+jshell> lhm
+lhm ==> {14=B, 22=C, 31=A}
+
+
+Refer Collection_Section15_216 for excercise. Also refer comments. 

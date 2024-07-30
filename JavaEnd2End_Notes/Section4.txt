@@ -1,0 +1,24 @@
+Section 4 : 
+
+Method declaration in jshell (or do not pass modifier, it will be defaulted) : 
+
+jshell> public void multiplication(int x) {
+   ...> for (int i = 1 ; i <=10 ; i++ ) {
+   ...> System.out.printf("%d X %d = %d", x,i,x*i);
+   ...> }
+   ...> }
+|  created method multiplication(int)
+
+Calling : multiplication(10);
+
+===========================
+
+/methods gives list of methods already defined in Jshell. 
+
+/save <filename> -- saves whatever you have executed in that session of JShell. Including all methods which you have created. 
+
+/edit <name of method> -- To edit that particualar method in Jshell. You can also edit by declaring method again with the same name. 
+
+/list <name of method> -- This will show your method declaration. 
+
+Parameter is when we declare method and argument is when we call that method passing an argument/value (feed value to the parameter). 

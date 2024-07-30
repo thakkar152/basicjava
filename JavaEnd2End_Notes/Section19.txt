@@ -1,0 +1,218 @@
+Section 19 
+========
+
+Exception handling. 
+
+In eclipse when you click on line number of exception it goes to that particular line. 
+
+When exception is not handled, it gets thrown to the calling funciton. 
+
+String str = null;
+str.length() --> NullPointer Excepiton gets thrown to main. 
+
+Stacktrace -> trace from where function got called...full line of trace. 
+
+For example :
+-------------------
+
+1)
+
+public class ExceptionHandlingRunner {
+
+	public static void main(String[] args) {
+		String str = null;
+		str.length();
+	}
+	
+StackTrace : 
+
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.length()" because "str" is null
+	at com.udemy.exceptionhandling.ExceptionHandlingRunner.main(ExceptionHandlingRunner.java:7)	
+
+2) Moving that method into some method and checking stacktrace. 
+
+public class ExceptionHandlingRunner {
+
+	public static void main(String[] args) {
+		method1();
+	}
+
+	private static void method1() {
+		String str = null;
+		str.length();
+	}
+
+}
+
+StackTrace :
+
+Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.length()" because "str" is null
+	at com.udemy.exceptionhandling.ExceptionHandlingRunner.method1(ExceptionHandlingRunner.java:11)
+	at com.udemy.exceptionhandling.ExceptionHandlingRunner.main(ExceptionHandlingRunner.java:6)
+	
+
+Refer Project -> seciton 19_excepitonhandling. -> com.udemy.exceptionhandling -> Exeptionhandlingrunner	
+-----------
+
+Once exception is thrown and if it is not handled then it is fatal. Program execution stops. 	
+
+Try catch block :  Refer Project -> seciton 19_excepitonhandling. -> com.udemy.exceptionhandling -> Exeptionhandlingtrycathrunner
+
+------------- 
+
+Each exception has a hirrarcy. 
+
+For example if I click on NullPointerExcettion -> This class extens runtime exception. and runtime exception is a subclass of Exception. 
+
+We can have multiple catch block as well. 
+
+try {
+
+}
+catch(NullPointerException ne) {
+
+}
+catch(ArrayIndexOutOfBoundException ne) {
+
+}
+catch(Exception e) {
+
+}
+
+Exception is most super class. 
+
+----------------------------
+
+Finally
+---------
+
+Refer : FinallyRunner
+
+Scanner needs to be closed everytime. Otherwise there will be memory leakage. Scanner was opened but never closed. 
+
+So if exception is thrown and program fatally gets ended before scanner is closed then there will be memory leakage. Here ArrayIndexOutOfBoundsException is thrown before close. 
+
+		Scanner scanner = new Scanner(System.in);
+		int[] intArray = { 1, 2, 3, 4 };
+		int number = intArray[5];
+		scanner.close();
+
+
+in such situation we can use finally block to close all connections even in case of exception
+
+code in finally is always executed. 
+
+Finally is always executed -- even if code has return statement, even if code doesnt throw exception. 
+
+lines in finally will only *not* get exectued if there is any error in finally block before particular line.
+
+finally{
+	String str = null;
+	str.lenght();
+	connection.close();
+}
+
+or finally will not get exectued if jvm crash. You can terminate/crash jvm by System.exit(1)
+
+
+You can have finally block only with try. catch is not mandatory. 
+
+try {
+
+}
+finally {
+
+}
+
+There cannot be only try. Try should be with catch or finally or both. 
+
+=======================
+
+checked exception :   CheckedExceptionRunner.java
+------------------
+
+When method says that there is a posibillity that I would throw somekind of exception then you are forced to handle that exception. 
+
+For example : 
+
+Thread.sleep(1000)... if you see signature of sleep, it throws Intrruppted exception. So you are bound to handle that. 
+
+public static native void sleep(long millis) throws InterruptedException;
+
+If there are multiple Thread.sleep then we have to handle it at each place by placing try catch block. 
+
+But if we want we can rethrow the exception from our function as well. 
+
+pubic void myFunction thows InterruptedException 
+
+
+Exception Hierarchy.
+--------------------
+
+class Error extends Throwable() 
+class Exception extends Throwable()
+class InterruptedException extens Exception()
+class RunTimeException extens Exception()
+class NullPointerException extends RunTimeException()
+
+ --> throwable is super super super class top in the hierarcy. Error cannot be handled by user. Like jvm out of memory error or any other error. 
+
+
+Any exception which *does not* extens runtimeexception are called checked exception. And checked exception needs to be handled. 
+
+Any exception which are not runtimetimeexception are called unchecked exception and this does not need to be handled. 
+
+ =============================
+ 
+ How to throw exception from our code ?
+ 
+ Refer : ThrowExceptionRunner.java
+ 
+ Whenever you are throwing checked exception (Like Exception), method signature should tell that. Refer addCheckedException method in same class. 
+ 
+ =============================
+ 
+ How to create custom exception. 
+ ==========================
+ 
+ Refer CustomException.java. 
+ 
+ Note that we are calling super(msg). Exception class already have constructor to print msg. we are calling same. 
+ 
+ 
+ ==============
+ 
+ TryWithResouce.. this feature was introduced in java 7.
+ 
+ We can pass our declaration withing round braces in try block itself. This does not need catch aswell or finally as well. 
+ 
+ Resource will get closed automatically at the end or something wrong goes. 
+ 
+ Refer TryWithResource.java
+ 
+ Catch is optional here. you can mention it if you dont want it to be fatal exception.	
+ 
+ if you see scanner class, it implements closable. and closable extends AutoClosable.  Whaver extends autoclosable can be used in trywithresouce.
+ 
+ ==========
+ 
+ Catch blocks should be hierarcy.. means exception block cannot be above nullpointerexception. So basically exception catch block should be at the end. 
+ 
+ ============
+ 
+ post java 7 you can mention multiple excepiton in same catch block. 
+ 
+ catch(ArrayOutofBoundsException | NullPointerException ex){
+	ex.printstacktrace();
+ }
+
+===================
+
+Point to note for exception handling : 
+
+Never hide exception and put some context. 
+Do not use exception for flow control. It consumes resources. do not use like if else. 
+Think about user
+think about support team
+
+have a global exception : if you have 1000 line of code in main..handle it with exception so that exception does not go outside world. 

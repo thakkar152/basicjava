@@ -1,0 +1,119 @@
+Generics
+--------
+
+//Part 1 
+
+If I make a ArrayList with string data type and write some operation to be done on that arraylist then it will accept only String datatype. But what if I want same logic for integer ArrayList. 
+
+This is where Generics comes into picture.  Refer - Generics_Seciton16_219 (package com.udemy.withoutgenerics)
+
+
+To use generics, we need to specify any capital letter(or series of capital letter) as an argument to the class. And same capital letter to be passed on further to the methods and member variables.
+
+While declaring object we need to pass on this parameter. 
+
+Refer Generics_Seciton16_219 (package com.udemy.genericsuse)  -- replaced String datatype with T. And then passed desired datatype while declaring object of that class. 
+
+
+Same logic of generics is being used by inbuilt ArrayList class as well. 
+
+
+//Part 2 
+In generics, you can use generics for parameter as well and return type as well. Check same example. I have added get method for return type. 
+
+
+
+What if I just want to allow generic to be of number type. I dont want to allow string type. But long, integer, double is fine. Then I can say 'T extends Number' in a class defination. No need to change anything else. 
+
+public class CustomArrayList<T extends Number>
+
+Advantage of restricting generics is that I can all the methods of number now. For example in above mehtods, i can say elements.byteValue(), elements.intValue(). All number methods. 
+
+
+In generics when we specify generic type in a class, you can specify generic type whereever you want to use (or using other type).
+
+//Part 3
+We can not only use generics for arguments/parameters or return type of function (like in get) but we can also use it for everything togeather. Same type of return type and same type of argument.  
+
+Syntax : 
+
+<Generics declation/Type Parameter> returnType methodName(parameterType variableName)
+
+example :  <T> T doSomething(T value)
+
+This method is accepting sameType and returning same type. Like: public String doSomething (String value) 
+
+Refer same example - introduced new static method at last. 
+
+
+//Part 4
+
+We can also retstric this generics in a same way we did earlier to take benifits of methods of that particular type.  See same example - new method duplicateList. 
+
+here we want to make use of all methods of List interface hence restricted generic to list. hence we can make use of addAll.
+
+
+// Part 5
+
+You can also pass restricted generics to the parameter of the function. check part 5 in same example in eclipse. 
+
+
+
+extends means - any class who extendes that class. for example < x extends List>. x can be ArrayList, LinkedList, Vector etc...
+
+ 
+instead of extend i.e. List<? extends Number> , I can also do List<? super Number>. Super will allow all the superclass of Number. I was not getting actual workingo of super. 
+
+if I use extend, its called lower bound. If I use super, its called upper bound. I need to check further difference between upper bound and lower bound. 
+   
+? - wild card can be used in method argument, or variable or member variable. 
+
+
+
+=========================================
+Generics Restart excersice for more clarity. 
+
+1) 
+
+Generics in class defination. We can use this anywhere in calss  : 
+
+Declaration : 
+
+public class CustomArrayList<T>   -- Generic
+public class CustomArrayList<T extends Number>  -- Restricted generics to all Numbers.
+
+Calling above class : 
+
+CustomArrayList<String> ca = new CustomArrayList<>();  
+CustomArrayList<Integer> caInt = new CustomArrayList<>();  
+
+Refer GenericRestart - com.udemy.genericsincalls and com.udemy.generics.classrestricted. 
+
+
+2) Generics in method parameter : 
+
+public void addElement(T element) {
+		ar.add(element);
+	}
+
+Same example above. 
+
+3)
+
+Generics for method return type : 
+
+public T getArrayElement(int index) {
+		return ar.get(index);
+	}
+
+Refer :  com.udemy.generics.genericsinreturntype
+
+
+4) generics for everything - return type and arument togeather. Same type. Just like "public String someMethod(String parameter)"
+
+Refer : com.udemey.generics.everything.
+
+
+5) generics with wild card in method argument. 
+
+Refer :  com.udmey.generics.wildcard. 

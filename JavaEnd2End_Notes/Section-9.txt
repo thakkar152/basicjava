@@ -1,0 +1,339 @@
+Section 9
+---------
+
+Data type is byte -> but Byte class is called wrapper class. 
+This wrapper classes provide size limit/other details of all data types. 
+
+For example :
+
+jshell> Byte.SIZE     <-- This gives size in bits
+$1 ==> 8
+
+jshell> Byte.BYTES    <-- This gives size in bytes. 
+$3 ==> 1
+
+jshell> Integer.SIZE
+$2 ==> 32
+
+jshell> Integer.BYTES
+$4 ==> 4
+
+
+jshell> Byte.MIN_VALUE   <-- Actual numberic value which you can store in Byte variable. 
+$5 ==> -128
+
+jshell> Byte.MAX_VALUE
+$6 ==> 127
+
+--------------
+
+By default all literals (constant) are considered as integer in java.  i..e here below 5000000000 is considered as integer. and we are trying to assing integer to long. To make that literal consider long, we have to add 'l'
+
+For example if I want to store long number I have to give 'l' to declare that literal as long. 
+
+jshell> long n = 5000000000;
+|  Error:
+|  integer number too large
+|  long n = 5000000000;
+|           ^
+
+jshell> long n = 5000000000l;
+n ==> 5000000000
+
+==============================================================
+
+
+jshell> int i = 100000;
+i ==> 100000
+
+jshell> i = n;
+|  Error:
+|  incompatible types: possible lossy conversion from long to int
+|  i = n;
+|      ^
+
+jshell> i= (int)n;
+i ==> 705032704
+
+
+(Implicit Cast) 
+
+jshell> n =i
+n ==> 705032704
+
+====================
+
+
+In Java we support Octal and Hexadecimal number directly. 
+
+Any number starting with 0 is considered as octal number  and any number starting with 0x is considered as hexadecimal number. 
+
+
+For example :
+
+jshell> int i = 010;    <-- 10 in octal is 8 in decimal. 
+i ==> 8
+
+jshell> int l = 0x10;   <-- 10 in hex is 16 in decimal.
+l ==> 16
+
+
+===========
+Decimal -> 0 to 9
+Octal ->  0 to 7
+Hexadecimal -> 0 to 9, A (represents 11), B,C,D,E,F (15)
+
+jshell> int fifteeen = 0XF
+fifteeen ==> 15
+
+============
+
+In octal or hex we cannot have digit more than max for example , octal cannot have 9. 
+
+jshell> int nine = 09
+|  Error:
+|  integer number too large
+|  int nine = 09;
+|             ^
+
+
+=================
+
+Post increment -> Value is assigned first and then incremented. 
+Pre increment -> Value is incremented first and then assigned. 
+
+jshell> int i = 10;
+i ==> 10
+
+jshell> int j = i++;
+j ==> 10
+
+jshell> i
+i ==> 11
+
+jshell> int i = 10;
+i ==> 10
+
+jshell> int j = ++i;
+j ==> 11
+
+jshell> i
+i ==> 11
+
+=====================
+
+Section 9 exsercise -> constructor example and operations. 
+
+doubt * ==> should i use this.number1 or direclty number1 and number2 for all methods including get ?
+
+Hi Sir, In video 96,
+For add method-  number1, number2 is used but for doubleValue this.number1 is used, I wanted to know why is that difference
+
+Answer : 
+
+Do not worry. For member variables in an object, this is optional.
+
+
+============================================
+
+Default data type of decimal literal is double. (double is 8 byte and float is 4 byte).  It cannot covert double to float. 
+
+jshell> float f = 34.5
+|  Error:
+|  incompatible types: possible lossy conversion from double to float
+|  float f = 34.5;
+|            ^--^
+
+
+jshell> float f = 34.5f;
+f ==> 34.5
+
+jshell> int i = (int) f;   <-- float to int casting takes int part of it while storing into int variable. 
+i ==> 34 
+
+==================================================================
+
+Floating point and double are not accurate so cannot be used in money calculation. 
+
+jshell> 34.56789876 + 34.2234
+$5 ==> 68.79129875999999
+
+From where 9999 is coming. Floating point representation does not allow accurate representation of decimal values. 
+
+
+For exact accuracy in calculation go for BigDecimal. 
+
+BigDecimal is a class in java and its constructor takes string as a value. so its need to be declared as calss.  to use it we need to import import java.math.BigDecimal; Other than java.lang we have to import every calss. 
+
+BigDecimal number1 = new BigDecimal("34.56789876");
+BigDecimal number2 = new BigDecimal("34.2234");
+
+jshell> number1.add(number2);
+$8 ==> 68.79129876
+
+If we declare BigDecimal to take double value, its not accurate. Only string value passed inside BigDecimal is accurate. 
+
+jshell> BigDecimal number2 = new BigDecimal(34.2234);
+number2 ==> 34.223399999999998044586391188204288482666015625
+
+======================================================
+
+BigDecimal type is immutable type. Means once created we cannot change value of it. We can create new variable out of it but we cannot change what is stored inside number1 variable. We can redeclare it but cannot change it. 
+
+
+In Jshell we can click on tab to get list of operation we can perform. For example number1.(tab) to check what operation we can perfrom on BigDecimal.  
+
+
+=============================
+
+We cannot add int value with BigDecimal. We need to create a class out of that int variable to add it BigDecimal variable. Kind of type casting int to BigDecimal class. 
+
+jshell> BigDecimal number2 = new BigDecimal("34.2234");
+number2 ==> 34.2234
+
+jshell> int i = 1;
+i ==> 1
+
+jshell> number2.add(i);
+|  Error:
+|  incompatible types: int cannot be converted to java.math.BigDecimal
+|  number2.add(i);
+|              ^
+
+jshell> number2.add(new BigDecimal(i));
+$14 ==> 35.2234
+ 
+
+
+Even...we cannot operate numbers/literals on BigDecimal. 
+
+jshell> number1.multiply(new BigDecimal(100));
+$15 ==> 3456.78987600
+
+======================
+
+SimpleCalculator - BigDecimal exsercise in eclipse. 
+
+=============================
+
+
+boolean variable values are case sesitive -- only valid values are true and false.  False/FALSE/0 are not valid values.  0/1 is c++
+
+=========================
+
+>,<,>=,<=,== all are all relational operator. O/p of relational opertion is boolean value. 
+
+jshell> int i = 10;
+i ==> 10
+
+jshell> i <= 10
+$2 ==> true
+
+========================
+
+logical operators operates on two boolean and retrun boolean.  -> &&, ||, ^ (XOR), !, 
+
+jshell> i >= 9 && i <= 12
+$3 ==> true
+
+XOR (^)  -- only true if both operands are opposite to each other. 
+
+jshell> true ^ true
+$4 ==> false
+jshell> false ^ true
+$5 ==> true 
+
+
+Another logical operator is & and |. 
+
+Difference between & and && is && is short circuit operator. Means && do not evaluate another condition as soon as it finds one false. Whereas & evaluates all condition and then gives result. Similar thing for |.
+
+Example : 
+
+jshell> i = 10
+i ==> 10
+
+jshell> int j = 5;
+j ==> 5
+
+jshell> i < 10 && j++ >=5
+$8 ==> false
+
+jshell> i
+i ==> 10
+
+jshell> j   <-- j remains same as it never got evaluated. 
+j ==> 5
+
+jshell> i <10 & j++ >= 5
+$11 ==> false
+
+jshell> i
+i ==> 10
+
+jshell> j   <-- j go evaluated and increment even though first condition was false. 
+j ==> 6
+
+=======================================
+
+Each character (of every language spoken in the world !) has some unicode value assigned to it. The Unicode standard is maintained by the Unicode Consortium and defines more than 1,40,000 characters from more than 150 modern and historic scripts along with emoji.
+
+just as a side note : ASCII is used for representing 128 English characters in the form of numbers, with each letter being assigned to a specific number in the range 0 to 127. For e.g., the ASCII code for uppercase A is 65, uppercase B is 66, and so on. Check out the following table for some more examples.
+
+For backward compatibility, the first 128 Unicode characters point to ASCII characters. And since UTF-8 encodes each of those characters using 1-byte. 
+ASCII is essentially just UTF-8, or we can say that ASCII is a subset of Unicode. Vice versa isn’t true.
+
+For example unicode value for exclamation (!) is 'U+0021'   (https://en.wikipedia.org/wiki/List_of_Unicode_characters)
+
+We can declare char variable using unicode values as well. 
+
+jshell> char var = 'a'
+var ==> 'a'
+
+jshell> char var = '\u0061'   <-- mind not to add U+ as mentioned in above list. 
+var ==> 'a'
+
+We can use this when we do not have key in our keyboard for some characters like 'cent'
+
+
+Along with unicode value, most of the characters has some numberic/decimal value as well (https://en.wikipedia.org/wiki/List_of_Unicode_characters). This numberic value remains same as ASCII value. Ascii (total 128 sybol/char) is subset of unicode. You can declare char by assigning decimal value as well. You can also perform operations on char. You can move to another value/characters by doing ++ or -- operation. 
+
+For example :
+
+Value of A is 65 , B = 66 and so on.
+
+jshell> char c = 65;
+c ==> 'A'
+
+jshell> ++c
+$20 ==> 'B'
+
+jshell> int i = 3;
+i ==> 3
+
+jshell> c + i  <-- operation between int and char(2 bytes) is always int as its bigger (4 bytes)
+ $22 ==> 69
+
+
+Char variable can also store other special characters such as new line (\n), carriage return (\r), tab (\t) . 
+
+jshell> char d = (char)j;
+d ==> 'D'
+
+jshell> char c = '\n';
+c ==> '\n'
+
+jshell> System.out.println(c);
+
+
+jshell>
+
+Ascii value/number value of character 
+
+jshell> (int)'Z'
+$35 ==> 90
+
+internally characters are number only. Thats why we can use it as it is in condition and also in loops. 
+======================
+
+Excersice - MyCharacter_Section9_104 -- eclipse.

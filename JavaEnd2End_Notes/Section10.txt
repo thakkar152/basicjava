@@ -1,0 +1,73 @@
+Section 10 :
+
+In nested if..else if ...else. Once condition is met, it does not check further condition and controls comes out of the block. 
+
+==========================================================
+
+i = 0
+
+if(i)  {
+ System.out.println("i is 0")
+}
+
+This program will give an error as in java int value are not allowed in condition. (whereas in c++ this is valid)
+
+=============================================
+
+
+In java Scanner is a class using which you can take input from the user. 
+
+Scanner scanner = new Scanner(System.in)  <-- java.util.Scanner.
+int number = scanner.nextInt();
+
+check TakeChoiceFromUserForOperation_section10_112 for exsercise. -- eclipse. 
+
+===============================================
+
+
+codingbat.com --> good website introudced by tutor 
+
+=====================
+switch syntax -- exsercise - TakeChoiceFromUserForOperation_section10_112;
+
+All the below cases will get executed if one of the case matches. prevent it to be happening by using break;. 
+
+placement of default block doesnt matter in switch. 
+
+Switch on long,double,float,boolean variable is not valid, only valid switches are on int, short, byte, string, enum. 
+
+case cannot have relational or logical operatior like case choice > 5 :
+
+int choice = 4;
+switch (choice) {
+
+		case 1:
+			System.out.println("Sum is : " + co.sum());
+			break;
+		case 2:
+			System.out.println("Substraction is : " + co.substraction());
+			break;
+		case 3:
+			System.out.println("Multiplication is : " + co.multiply());
+			break;
+		case 4:
+			System.out.println("Division is : " + co.division());
+			break;
+		default:
+			System.out.println("Invlid Choice");
+			break;
+
+		}
+		
+		
+=========================================
+
+static method can be called from main static method without object. static method cannot be there inside main.  (can refer RestartTutorial -> SimpleCalculatorBigDecimalRunner.java as well for this)
+
+default does not require break, but its good practice. 
+
+Refer SwitchExercise_seciton10_118
+
+================================
+
+return statement within switch is kind of break only. Code wont execute after return.		

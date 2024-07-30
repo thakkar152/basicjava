@@ -1,0 +1,370 @@
+Section 12
+
+Reference type
+-----------------
+
+int i = 5. 
+
+here int is premitive type, i is premitive type. 
+
+Class Planet {
+
+}
+
+Planet jupiter = new Planet()
+
+
+Here Planet  -- is reference type and jupiter(object) is a reference variable. 
+
+========================
+
+All classes including system classes such as String, BigDecimal are called Reference type. And when we create instance(object) of this class that is called reference variable. 
+
+=======================================
+
+There are two kind of memories - Stack and Heap. 
+
+All premitive variable and their values are stored under stack.. 
+All object are stored under heap. 
+All name of object are stored under stack with reference of heap. 
+
+For example : 
+----------------
+
+Class Animal {
+    private int id;
+	
+	Animal(int id){
+		this.id = id;
+	}
+}
+
+public static void main(String[] args){
+	Animal dog = new Animal(12);
+	Animal cat = new Animal(15);
+	int i = 5;
+}
+
+
+Here internal storing would be : 
+
+
+	Stack				                                  Heap 
+	-----								  ----
+	
+Location | Value | variable-name 				Location | Object
+
+A            5         i                                         1A	   Animal12
+B	    1A        dog					 1B	
+C	    1C        cat					 1C        Animal15	
+D							         1D	
+E
+F
+
+Here premitive variable got stored under stack memory. Also name of object and reference of location on heap is stored under stack. But actual object got stored under Heap. 
+
+=================================================
+
+-> if we compare two premitive variable, it compares its values for equality (==). 
+-> if we compare two object, it compares its reference. If refrence is same it will return true. 
+
+In above example lets create few more varialbes. 
+
+Animal ref = dog;   <-- assigning dog object to ref
+int j = 5;
+Animal dog2 = new Animal(12)
+
+	Stack								   Heap 
+	-----								   -----
+	
+Location | Value | variable-name 				Location | Object
+
+A            5         i             			             1A	       Animal12
+B           1A        dog				             1B	
+C	    1C        cat			                     1C        Animal15	
+D	     5         j				             1D	       Animal12 
+E           1A        ref  				             1E 	
+F           1D        dog2 					     1D
+G								     1F		
+
+
+now : 
+
+i == j --> true as value is same. 
+
+ref == dog --> true as memory reference is same. 
+dog == dog2 --> false. even though value is same same 12, memory reference is different.   
+
+When we create a premitive variable, it directly gets created inside stack with its own identity. But when we create an object by refering another object, it just creates its reference directly in stack. 
+
+==========================================
+
+String is a reference type and not a premitive type. Its a class. 
+
+For example, we can directly call its method as well. 
+
+String str = "Test";
+str.length();
+
+Now, its a special kind of class as 'new' keyword is not really required. We can declare it with new as well but its not required. 
+
+String str = new String("Test")  <-- perfectly valid like BigDeicmal calling its constructor (BigDecimal bd = new BigDecimal("5")).  
+
+
+str.charAt(0)  ==> o/p : T
+
+String sss = "This is a lot of text";
+
+sss.substring(5)  ==>  o/p :  is a lot of text
+sss.substring(5,9) ==> o/p :  is a
+
+start number is inclusive but end number is exclusive hence 9 and not 8 to include 'a';
+
+
+some other methods : 
+
+indexOf
+contains
+startsWith
+endsWith
+isEmpty
+equals  -- str.equals(sss) or str.equalsIgnoreCase(sss)
+toUpperCase
+toLowerCase
+trim   <-- removes space at the start of string and at the end of string only. 
+String.join(joiner,values comma separated);
+replace (what to replace, with what)
+
+================================================
+
+String is immutable because once its created we will never be able to change its value. 
+
+For example : 
+
+jshell> String str = "hello";
+str ==> "hello"
+
+jshell> str.concat(" how are you");    <-- it outputs as a new string. does not modify str variable. 
+$10 ==> "hello how are you"
+
+jshell> str;    <-- str are still hello 
+str ==> "hello"
+
+jshell> String newString = str.concat(" how are you");  
+newString ==> "hello how are you"
+
+ <-- even if i use str = str.concat(" how are you") that is also like creating new variable. otherwise str is immutable. You cannot change it value at any cost. 
+ 
+ 
+=================
+
+In java all wrapper calsses - String, Byte, Integer, Boolean, Short etc... are immutable classes. 
+
+=======================
+
+Expressions are evaluated in java from left to right for example : 
+
+jshell> 1 + 2 + "3"
+$1 ==> "33"
+
+jshell> "1" + 2 + 3
+$2 ==> "123"
+
+1 string and 1 integer is concatenation. Only if both are inteter its plus. 
+
+
+=====================
+
+When we do String. tab --> This will show all avaialble static methods for String. (String is a class. So class.method - only works for static method. No object declaration. Directly accessing method with class name). Its special class hence we can see some non-static method as well and we can access (i guess so)
+
+When we do string variable str. tab --> This will show all string methods/api available. 
+
+============================
+
+*String buffer importance*
+
+If I do following :  
+
+"ab" + "cd" + "ef" + "gh"
+ 
+as string are immutable, this is very costly operation. 
+
+First it creates 4 objects/instance for above 4 strings. 
+Then it creates 5 object to concatenate "ab" + "cd"
+then it creates 6 object to concatenate "abcd" + "ef"
+then it creates 7 object to concatenate "abcdef" + "gh"
+
+
+To overcome this, java has introduced StringBuffer class. StringBuffer are mutable class.
+
+String Buffer mutable : I can change after creating 
+---------------------------------------------------
+
+jshell> StringBuffer sb = new StringBuffer("abc");
+sb ==> abc
+
+jshell> sb.append("cdef");
+$4 ==> abccdef
+
+jshell> sb
+sb ==> abccdef
+
+StringBuilder got introduced in later version of java. StringBuffer is synchronous - means ready for multithreading (threadsafe), this includes some penalty. So whenever you are not concern about synchronous, go for StringBuilder, which faster than StringBuffer. 
+
+
+==============================================================================
+
+
+all premitive data types there is an associated Wrapper class. Wrapper classes are immutable. 
+
+int --> Integer
+short --> Short
+char --> Character
+double --> Double
+float --> Float
+boolean --> Boolean
+byte --> Byte
+long --> Long 
+
+
+This wrapper classes provide many functionality. 
+
+
+For example 
+
+Creation from other types : 
+----------------------------
+if you want to create a boolean value out of string. 
+
+Boolean bool = Boolean.valueOf("true");
+
+if you want to evaluate string as an inteter ...
+
+Inteter number = Integer.valueOf("100");
+
+Useful utilities 
+----------------
+
+fetch integer value of float number ...
+
+jshell> Float f = 57.7f;
+f ==> 57.7
+
+jshell> f.intValue();
+$10 ==> 57
+
+
+Converting number into number format with radix - such as binary format, octal format , hex format. By default radix is always deciaml(0 to 9). radix can be any number.   
+
+For example :
+
+Consider string as number with radix 2 : Convert to binary. 
+----------------------------------------------------------
+
+jshell> Integer.valueOf("11",2);
+$19 ==> 3
+
+0
+1
+10
+11
+100
+101
+110
+111
+
+ 
+number 10 in octal representation is 8 (ocatal 0 to 7)
+---------------------------------------
+ 
+jshell> Integer.valueOf("7",8);
+$26 ==> 7
+ 
+jshell> Integer.valueOf("10",8);
+$25 ==> 8
+
+0,1,2,3,4,5,6,7,10,11,12....
+
+
+Decimal representation -- default : 
+-----------------------------------
+jshell> Integer.valueOf("11",10);
+$27 ==> 11
+
+jshell> Integer.valueOf("100",10);
+$28 ==> 100
+
+
+Hex representation : 
+--------------------
+
+jshell> Integer.valueOf("A",16);
+$29 ==> 10
+
+0,1,2,...8,9,A,B,C,D,E,F,10,11....
+
+
+collection
+----------------
+
+Collections only allows object and wrapper class helps to store premitive to the collection. -- This will be explained in later videos in detail. 
+
+========================================
+
+
+We can create wrapper class by following way ...
+
+two methods of creating integer using wrapper class :
+
+1) Integer i = new Integer(5)  
+2) Integer i = Integer.valueOf(5) -- recommneded to use this as its does not create new object every time. it tries to reuse it. see below note on equality. 
+
+For 2nd - equality (==) of valueOf results true. before storing it first checks if it has object with same value. And thats how it assigned same reference. 
+
+ But in 1st ,its and object so equality checks reference and results into false.  
+
+
+We can also do following :
+--------------------------
+Integer i = 5 
+
+this is called autoboxing. Java does internal task of converting literal to wrapper. Internally it does Integer.valueOf(5) only. 
+
+
+=================================
+
+jshell provides some default imports. /imports will list all imports. LocalDate requires java.time.LocalDate imports which is not there as default import in jshell. so we need to execute import statement.
+
+=====================================================================================
+
+
+
+Date api of java was not good before java 8. So as an alternative, people were using JODA framework for dates as default java date api was not good.
+
+In Java 8, they introduced good feature based on JODA Time Framework. 
+
+
+Java 8 introduced 3 important apis/classes 
+
+LocalDate, LocalTime, LocalDateTime.  
+
+LocalDate ld = LocalDate.now()   
+
+<-- now is static method in LocalDate class.  thats why just classname.method works. other constructor are not exposed to us. 
+
+it has many methods. Just do ld. tab to checkout methods. 
+
+like getYear(), getMonth(), getDayOfWeek(), isLeapYear(), lengthOfMonth(), lengthofYear(),  ld.plusDays(100) -- add 100 days to now. , plusYear, plusMonths, minusDays etc..
+
+LocalDate class is immutable.....so this means all above methods will create new instance !!
+
+other method is LocalDate.of(2021,7,22);
+
+========================
+
+
+
+
+ 
+
+

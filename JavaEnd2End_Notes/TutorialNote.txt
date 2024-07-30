@@ -1,0 +1,23 @@
+
+Topics
+
+OOPs
+Collection / Data Structure
+Generics
+Lamda
+Thread
+
+
+JDK - Java Development Kit. For actual development. Install. 
+Once JDK is installed, go to cmd and check java -version and jshell -version. Need to add to path variable only if command is not getting executed.
+Look for the installation jdk/bin/   -> copy this path and set path variable to enviornment variable -> system variable.
+
+
+jshell got introduced in java9
+jshell can be used online - tryjshell.org. It gets installed locally as well when you install java.
+To launch jshell - go to cmd and execute cmd jshell. You can directly type any command. Also direct math problmes. To exit -> /exit
+
+
+Literals means constant (or operands for static expression).  5 is int constant but 5.0 is float constant. So 5.0/2.0 will give answer in floating point. Java follows BODMAS rule. 
+
+

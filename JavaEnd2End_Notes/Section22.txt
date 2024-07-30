@@ -1,0 +1,270 @@
+Java tips and miscellaneous topics. 
+
+
+1) Imports and static imports 
+
+
+String str = "" 
+
+No imports are necessary for String. Becuase string is a part of java.lang package and its by default added. 
+
+
+Static imports -- If we are specifying full import statments we can reduce it by specifying static import. 
+
+For example : 
+
+System.out.println("Hello");
+
+Now System is part of java.lang... so I can specify import static java.lang.system.out;  (here out is static variable in class system)
+
+and can use out.println("Hello") going ahead in that class. 
+
+Refer -- JavaTipsSection22 -> StaticImports.java
+
+We can use static imports for methods as well. 
+
+Collections.sort(new ArrayList<String>())
+
+So I can directly specify 
+
+sort(new ArrayList<String>()) by importing all static methods of Collections. refer same file. 
+
+==============
+
+
+Blocks
+
+
+
+even you can mention blocks without any condition. and variable inside blocks are valid till the scope of blocks only. 
+
+
+==============
+
+
+Equals 
+
+Refer same package --> Equals.java
+
+By default all classes extened object class. And object class provides defination of equals. 
+
+if we do obj1==obj2, it will return false. As default defination only checks whether objects are same. They do not check value of object. 
+
+that means it will return true only if c1==c1. or location reference is same (i guess)
+
+So to override defination of equals...
+
+Right click generate source -> equals and hashcode and select id as base field of equality. 
+
+We will discuss hascode later on. 
+
+
+=================
+
+Hashcode... (need to go in deep for this)
+
+Whenever you implement equals... you should implements hashcode as well... eclipse generated hashcode is good and beyond understanding of begginner. 
+
+if two objects are equals there hash code should be equals... It shouldnt be case that one time hashcode is x and other time its y. 
+all the objects in hashing should be distributed evenly in buckets...it should not be case that one bucket has 100 objects and other has 0. 
+hash code shouldnt change object value changes. 
+
+
+========================
+
+Class Access Modifier : Public , Private, default, Protected 
+
+Public class are visible and can be used outside package as well in the same project. 
+Default class (means no keyword specified) is visible and can be used only within the package. 
+
+Class cannot be Protected or private. Class can be only public or default (abscence of keyword)  
+
+=======================
+
+Method Access Modifier : public ,private, default, protected. 
+
+Public - Anywhere 
+Protected - in same package or in subclasses. 
+Private - Only accessible within that class. 
+Default - Same class and inside same package. 
+
+Refer MethodAccessModifier.java -> Inside same class every type of access modifier is accessible. 
+
+Refer MethodAccessModifierInsideSamePackage.java -> inside same package but outside class. -> only private is not accessible. 
+
+Refer MethodAccessModifierInDifferentPackage.java -> only public is accessible outside package. 
+
+====================
+
+Non-access modifier - Final & Static 
+
+Final Class cannot be extended 
+
+final class ThisIsFinalClass {
+
+}
+
+public class Bhupat extends ThisIsFinalClass --> Not allowed. 
+
+All String, Integer, Long wrapper classes are Final. When you dont want others to extenend your class and modify the behavior, you make class final. 
+
+===========================================================================
+if method is final, then you cannot override it. 
+
+class ClassA{
+
+  final public void methodA(){}
+
+}
+
+class ClassB extends ClassA {
+
+	@override
+	public void methodA(){}  --> not allowed. it will throw and error. 
+
+
+==================================================================
+
+if variable is final, you cannot change its value. 
+
+final int i =5;
+
+i=7 --> not allowed. 
+
+=========================
+
+final variable in an argument. You cannot change its value. 
+
+methodA(int i){
+i=5;
+}
+
+methodA(final int i){
+i=5   --> not allowed. 
+}
+
+==============
+
+Immutable Programming -> every variable, argument should be final... this is easy to understand. We know its not possible to have every variable final, but try to make variable final as far as possible. 
+
+========================
+
+
+2nd Non access modifier : Static
+
+
+Static variable always has only one instance. It is shared across the class. For example : 
+
+Refer NonAccessModifierStatic.java in package com.udemy.staticexample. 
+
+Here, if I keep noOfPlayers variable static then it will be shared between calls. Only one instance will be created. And whenever I will get count, it will get incremented. But if I just remove static keyword from noOfPlayers variable, everytime instance will be created separateley. 
+
+Why do we need static variable - Because we want to share same data between mutliple instances in same class. 
+
+======================
+
+Static Methods : 
+
+So in above example, we are calling players1.getNoOfPlayers(), players2.getNoOfPlayers().... why to use difference instances to getCount even though count will be same across all instances. 
+
+In such scenario we can make method static and just called Player.getNoOfPlayers().  Directly access static method with ClassName.MethodName(). 
+
+You can also call static methods with instances liek players1.getNoOfPlayers, but eclipse will give warning saying "Players should be accessed in static way."
+
+
+even though we have mutliple instance of Players method, instance of noOfPlayers variable and getCount method will be shared amoung the instances. 
+
+
+===========================
+
+Static variable can be accessed from instance method but instance variable cannot be accessed from static method. 
+
+
+Name is instance variable or member variable
+count is static variable or class variable (shared among the class)
+
+Inside static method you cannot access member variable (at class level you cannot access instance level variables)
+
+================================================
+
+Why we use public static final for variable. 
+
+Static is class level variable.
+Final means which cannot be modified. 
+ 
+So for declaring constant we can use static final. And we can use it anywhere in the application as its a public. 
+
+Refer javatips -> staticexample -> constant . 
+
+===========================================================
+
+Inner class --> Refer JavaTips Secion 21 -> com.udemy.nestedclass -> NestedClassRunner.java
+
+
+//this is just a class with default access modifier which can be accessed throughout package. 
+
+class DefaultClass{
+	
+}
+
+public class NestedClassRunner {
+
+	class InnerClass{
+		
+	}
+	
+	static class StaticNestedClass {
+		
+	}
+	public static void main (String[] args) {
+		
+	}
+}
+
+
+Any class inside a class is called Nested Class. There are two kind of Nested Class -> Inner class (without static) and Static nested class (inner class with static). 
+
+You cannot create an instance of InnerClass without instance of outerclass (NestedClassRunner). Because of this, you can access values from enclosing class to innerclass. We need to create an instance of enclosing class anyhow to access innerclass. So as there is an instance of outerclass to be created anyhow, we can access values from outerclass as well. 
+
+
+However, for StaticNestedClass, you can directly create an instance without outerclass. Because of this you cannot access values from outerclass to innerclass. 
+
+
+========================
+
+Anonymous class
+
+Refer Refer JavaTips Secion 21 -> com.udemy.nestedclass -> AnonymousClassRunner.java
+
+Anonymous class are class without name. We can declare right where we are suppose to call class by new keyword. 
+
+lamda function can also be kind of thought as an anonymous class as they dont have names either. 
+
+use Anonymous class where you are 100% sure that this logic will not be used anywhere else inthe application. 
+
+
+=======================
+
+Enum
+
+Enums are declared similar to class only. Its a special data type
+
+Enums are used when you want values to be restricted and dont want user to change its values. 
+
+Refer Refer JavaTips Secion 21 -> com.udemy.enumpackage -> EnumRunner.
+
+ordinal means number associated with the position in enum or array or arraylist etc..
+
+enum class (not to use class keyword) can contain constructor, variables and methods as well. 
+
+Refer EnumRunnerConstructorValue.java
+
+IN ONE PACKAGE ONLY ONE ENUM OF SAME NAME CAN BE DECLARED. 
+
+Enum can be a class of its on. Like create a file Seasons.java and just copy paste enum block to that. 
+
+Some inbuild enums like - DaysOfWeek, MonthsOfYear. 
+
+
+ 
+ 

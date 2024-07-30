@@ -1,0 +1,118 @@
+Section 5 : 
+
+0's and 1's instruction for each OS could be different. Windows instruction will be different from Unix, unix will be different from Linux etc..
+
+Whatever we write, that gets converted into 0's and 1's instruction which OS understands. 
+
+
+Java complies code into bytecode and JVM of that particular platform will convert this Byte code into instruction which OS understands. 
+
+For example 
+
+Java -> Compilation -> Byte code. 
+
+This Bytecode will be interpretated by Windows JVM and will be converted into Windows instruction
+Same Bytecode will be interpretated by Unix JVM and will be converted into Unix instruction. 
+
+Hence platform independent. 
+
+										Java Code
+										    |
+									    Compilation
+										    |
+										Byte Code 
+											|
+										   Run
+									/	    |         \
+								Bytecode   Bytecode   Bytecode	
+								   |         |          |
+							WindowsJVM    UnixJVM       LinuxJVM
+							   |			|				|
+							Windows         Unix            Linux
+                             				 Instruction	Instruction     Instruction
+
+
+
+==============================
+
+Creating class : 
+--------------
+
+jshell> class Country {
+   ...> int i = 10;
+   ...> }
+|  created class Country
+
+Creating object of the class :
+-------------------------------
+
+jshell> Country india = new Country();
+india ==> Country@13c78c0b
+
+Accessing member variables 
+---------------------------
+
+jshell> india.i
+$3 ==> 10
+
+jshell> Country canada = new Country();
+canada ==> Country@97e1986
+
+jshell> canada.i
+$5 ==> 10
+
+==========================
+
+all jshell shorcuts like /list /edit etc works with class as well. 
+
+/list Country
+/edit Planet
+
+
+======================
+
+Outside Jshell now : 
+---------------------
+
+To compile classes. 
+
+Create a class in any editor - like Makan.java I did. 
+
+Goto that path from cmd or git bash 
+
+javac Makan.java. 
+
+This will create one more file Makan.class
+
+This class file is actually bytecode created after compilation. 
+
+To run this class command will be 
+
+java Makan  -- //note no class or .java extension.
+
+This will error out saying No main method is declared. 
+
+Error: Main method not found in class Makan, please define the main method as:
+   public static void main(String[] args)
+
+===============================
+In jshell we dont need main method but if we are compiling java class outside Jshell we need main method. 
+
+========================
+
+In ModifiedMakan.java, I have introduced main method at the end keeping all functions as it is. Kept main method blank and compiled class and ran class. No output as nothing was there in Main Class. 
+
+modifed above ModifiedMakan.java to call methods from main now. 
+
+Check CountryRunner.java and CountryRunnerOneClass.java. We can declare object of same class in main method. 
+
+======================
+
+JVM (Java Virtual Machine) -  It converts bytecode (compiled output of java program) to instruction which OS understands.  For example, windows JVM converts byte code to windows instruction. It converts and executes them.  When I do javac 'planet.java' it compiles (bytecode) and when I do 'java planet' JVM converts this bytecode to OS instruction and executes it. 
+
+JRE (Java Runtime Enviornment) -  JVM + Inbuilt libraris to run program (like System.out.println, Math etc). If we have compiled code we will just need JRE (includes JVM) to run it. Like running planet.class. 
+
+JDK (Java development Kit) -  JRE +  Compilers + Debuggers. 
+
+
+

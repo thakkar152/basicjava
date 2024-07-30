@@ -1,0 +1,467 @@
+Section 14
+==========
+
+Advance OOP
+
+Recape :
+========
+
+-> Class is a template and object is an instance of that template. 
+
+MotorBike ducati = new MotorBike() -> MotorBike is a template and ducati is an instance of MotorBike Template. 
+
+
+MotorBike has a member variable called speed. Member vairable is also called 'state'. Because state can change. We can increase the speed later on or decrease the speed.  How this state changes : we write a method to (example increaseSpeed, decreaseSpeed) to change the state. Methods are called 'behavior' of an object. 
+
+Class MotorBike{
+	private int speed;
+
+}
+
+While constructing a class you need to make few decision : 
+
+-> What should be the state of object  like, make of a motor bike, speed, gears etc. 
+-> What behavior should be of an object  increaseSpeed, decreaseSpeed, changeGears etc..
+-> How you want to initially construct the object - construction which will give intitial speed of 5 etc..
+
+=========
+
+Eclipse - OOP_Level2_Section14_169 - Read - Fan and Rectangle classes.  
+
+
+================================
+
+Object composition
+------------------
+
+object inside object is called object composition. 
+
+Eclipse - OOP_Level2_Section14_169 - continue - 
+
+read Customer (within that Address)
+read Boook (within that Review)
+
+
+Inheritance
+-------------
+
+if there is a class called Person with fields Name, email, phonenumber with all the getter and setters
+
+and another class called Student with fields name, email, phonenumber, college, year with all getters and setters. 
+
+here we can see that name, email, phone number and their getters and setters are repeating. So total 3 member variables and 6 (3 getter, 3 setters) are repeating. 
+
+Here comes concept of inheritance. 
+
+We can use all the attributes of class Person within Student. 
+
+Class Student extends Person{
+
+}
+
+here person is call super class and Student is call subclass. 
+
+subclass is inherting all the attributes from super class. 
+
+inheritance should be used when there is a 'IS A' relationship. For example, student IS A person. 
+
+Even if you want to reuse the code, but if there isnt 'IS A' relationship then inheritance is not recommended. 
+
+Eclipse OOP_Level2_Section14_169 -- continue but new package with 'inheritance'. 
+
+
+object is at the top of inheritance hierarchy. 
+----------------------------------------------
+
+Every calss by default extends Object class. even if you dont write 'Class Person extends Object' , java automatically extends every class from object class. 
+
+Thats why when you create an object of any class we see by default some methods called - equals(), getClass(), equals(), hashCode(),notify(), wait(), toString() etc...
+
+This methods are actually of class Object. 
+
+even its ok to write Class Person extends Object. 
+
+Even there is a comment in Object class :
+
+ /*  Class {@code Object} is the root of the class hierarchy.
+ * Every class has {@code Object} as a superclass. All objects,
+ * including arrays, implement the methods of this class.
+ 
+-----------------------------------------------------
+
+Overriding. 
+-----------
+
+ 
+
+In subclass you can override method of super class. This is call overriding. For example in student class we can override method getName() of class Person 
+
+
+All classes are subclasses of Object class. Object class is a super class as discussed above.
+
+For example toString method of class Object is as following : 
+
+ public String toString() {
+        return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+	
+Thats why whenever we print an object without toString method it displayes something like this : 
+
+com.udemy.oop.level2.inheritance.Student@1175e2db
+
+You can override this method, thats why eclipse add @override annotation when we declare toString method. Because actually we are overriding method of Object class (default inherited class). 
+
+For above both example - check OOP_Level2_Section14_169 ->  com.udemy.oop.level2.inheritance
+
+--------------------------------
+
+super 
+----
+
+To call method of super class we use 'super'.  
+
+
+Further extended same above ... Now added employee class 
+
+So Employee extends Person and Student extends Person. 
+
+OOP_Level2_Section14_169 -> com.udemy.oop.level2.inheritance.extend 
+
+While printing object of employee : 
+
+-> if employee class does not have toString method overridden but Person class has then it takes that. 
+-> But if employee class has toString method then it take toString from employee only and ignores person's toString method. 
+
+i.e. if subclass doesnt have toString method overridden then it takes toString method of super class. 
+
+to use method of super class, we can use 'super' keyword. - check toString method of employee class. 
+
+another way is to call toString method of super class. super.toString(). This will call toString method of Person. 
+
+
+
+What is super in constructor ?
+-----------------------------
+
+
+
+
+ 
+ -> Now lets try to define default constructor in Person class. Also declare default constructor in Employee class. 
+ 
+ public Person(){
+	sysout("Person Constructor");
+ }	
+ 
+ public Employee(){
+	sysout("Employee Constructor");
+ }	
+
+Now on creating object of Employee : 
+
+Employee e = new Employee();
+
+As we know, creation of an object calls constructor. But here both constructor will be called, Person and Employee as Employee extends person.  And first super class constructor will be called. 
+
+o/p : 
+
+Person constructor
+Employee constructor	
+Employee [tittle=Uchu Tittle, employer=Sari Company, employeeGrade=A Name=null Email=chokro@chokro.com Phone=647777777]
+
+
+In backgroud java addes super() within constructor automatically inside subclass constructor. hence first person constructor gets called. you can explicitly also add as follow. 
+
+public Employee(){
+	super();
+	sysout("Employee Constructor");
+ }	
+ 
+if you declare explictly like above and click on super(), it will point you to person's constructor.  
+
+
+---> now Question of "I dont want user to create person class without passing name". 
+
+If I defined non default constructor in super class , there will be error in all subclass mentioning - 
+"Implicit super constructor Person() is undefined for default constructor. Must define an explicit constructor". 
+
+Just as a reminder - declaring explict constructor removes default constructor as well, as java thinks we are going to manage constructor. 
+
+For example : 
+
+If I defined explict non default constructor in class Person, above error will be thrown for both Employee and Student class. 
+
+
+--> here as soon as we add non-default constructor in super class, it removes default constructor from super class (Person)  !! Now read error again...
+
+This means that when I will create employee object, it wont be able to call implicit default constructor person() !!
+
+So adding default constructor Person() will solve the error but this will also allow user to create person object or employee object without name. 
+
+to overcome this, 
+
+we will call super with the argument -- super(name) -> this will call correct constructor of Person with name.  Same goes for student class as well, as student as well extends person. 
+
+check - OOP_Level2_Section14_169 -> com.udemy.oop.level2.inheritance.extend
+
+ ----------------------------------------------
+ 
+ -> Multiple inheritance is not supported in java. it is supported in c++
+ 
+ Class Dog extends Pet, Animal.   --> This is not allowed in java. 
+ 
+ However, hierarchy of extends is possible. 
+ 
+ For example :
+ 
+ Class Animal 
+ Class Pet extends Animal 
+ Class Dog extends Pet 
+ 
+ -> super class object can hold subclass but vice versa is not true. 
+    for example , 
+	
+	Pet pet = new Dog();   
+	--> This is considered as pet object only. So wont be able to call dog methods. But it will cal dog constructor.
+	
+
+-> instanceOf -- you can check if object is an instanceof specific class. 
+
+
+
+
+Refer eclipse - OOP_Level2_Inheritance_Puzzle_Section14_179 for all three things above. 
+
+------------------------------------------
+
+
+Abstract class
+--------------
+
+For abstract method, we just provide declaration of the method. We do not provide implementation of the method. 
+
+abstract public void bark();  
+
+This method just have declaration but no implentation. abstract keywork can be before modifier or after modifer. both are good. 
+
+if method is declared abstract, class also has to be abstract. 
+
+public abstract class AbstractAnimal {
+
+}
+
+Implementation of abstract method is provided by the 'subclass'
+
+
+class dog extends AbstractAnimal{
+	public void bark(){
+		sysout("bhav bhav");
+	}
+}	
+ 
+ 
+if you try to extened abstract class without defining/implementing/overriding abstract method of abstract class then it errors out " Dog is not an abstract class and does not override abstract method bark()"  
+
+if class wants to extenend an abstract class then it needs to provide implemntation of abstract methods. 
+
+You CANNOT create an instance of an abstract class. 
+
+I can create instance of clas dog here , but cannot create an instance of AbstractAnimal class. 
+
+
+I can declare normal method in abstract class and subclass wont complain to implement those non abstract method of abstract super class. 
+
+---Refer AbstractExample in eclipse. 
+
+When you want user to compulsory follow some steps but if you do not want to get involved about how they follow the steps then abstract is useful. For example Junit. I want user to follow setup(), test() and teardown(). But i dont want to involve in what they write, but they should follow this steps. 
+
+For example for cooking any recipe... you want user to first do preparation, then do actual cookin of dish and then do clean up. So steps are confirmed but what recipe it will be that you dont know and you dont want to get involved for that. Cook whatever you want to cook but for cooking these are mandatory steps. 
+
+You dont want to get involved in how it should be done !
+
+My thought :  For example if you want anybody to follow any life cycle but you dont want to get involved. then I think this is useful. 
+
+
+Refer AbstractRecipe_Section14_181 in eclipse. 
+
+-> You can create abstract class without any abstract method... but it is of no use. 
+
+-> one abstract class can extened another abstract class. And in this scenario, we do not have to give implementation while extending. 
+
+For example : 
+
+jshell> abstract class AbstractAlgorithm{
+   ...> abstract void steps();
+   ...> }
+|  created class AbstractAlgorithm
+
+jshell> class Algorithm1 extends AbstractAlgorithm{
+   ...> }
+|  Error:
+|  Algorithm1 is not abstract and does not override abstract method steps() in AbstractAlgorithm
+|  class Algorithm1 extends AbstractAlgorithm{
+|  ^------------------------------------------...
+
+But as error says...class should be either absract or needs to implement abstract method. 
+
+jshell> abstract class Algorithm1 extends AbstractAlgorithm{
+   ...> }
+|  created class Algorithm1
+
+
+-> We can have memeber variables as well as normal method in abstract class. 
+
+-> Abstract mechanism is used in many framework of java. Implementation is then done by user of such framework. 
+
+===========================================
+
+Interface 
+----------
+
+-> Since Java 8, syntactically both abstract and interface are almost same. But the thought process of using it and usage of it is very different from abstract. 
+
+
+Very good example of interface :
+
+Buttons in Remote control of game console provide interface but game which we are playing, code there provide implementation. 
+
+For example if we are playing mario, implementation for that button would be different then chess game. 
+
+This is how we should think about interface while working. 
+
+While declaring interface we do not have to specify 'class' keyword. 
+
+public interface GamingConsole{
+}
+
+to use this interface we have to use 'implements' keyword. 
+
+public class Mario implements GamingConsole{
+}
+
+
+Check example - GamingConsole_Interface_Section14_184
+------------------------------------------------------
+//Below both declaration are valid in interface. 
+
+
+	Mario mario = new Mario();
+	GamingConsole game1 = new Mario();
+
+
+-> one more use... about implentation of DummyAlgorithm and RealAlgorigthm -- watch Section 14 - 184. 
+Interface provides contract/communication between two classes. Like what methods compulsory needs to be implemented and what will be return type and parameters. 
+
+Till the time out sourced team writes realalgorithm, other team can start building project with dummyalgorithm. Just like UI team starts working on UI stuff just based on dummy api response.    
+
+
+-> An interface can 'extends' other interface !! 
+
+public interface Interface1 {
+	method1();
+}
+
+public interface Interface2 extends Interface1 {
+	method2();
+}
+
+Class implementing Interface2 needs to provide implementation of both method - method1 and method2. 
+
+we can still implement only one method if we make class abstract which is implementing interface. 
+
+-> 
+Since java8, we can provide default implementation in interface itself. If class implementing does not provide implementation then also its fine if method is declared as 'default'. Object can still refer to that default method. 
+
+jshell> interface Interface1{
+   ...> default public void someMethod(){
+   ...> System.out.println("Default");
+   ...> }
+   ...> }
+|  created interface Interface1
+
+jshell> class SomeClass implements Interface1{   //here I had not implemented someMethod()
+   ...> }
+|  created class SomeClass
+
+jshell> SomeClass sc = new SomeClass();
+sc ==> SomeClass@7f560810
+
+jshell> sc.someMethod(); //object of SomeClass still have reference of default method. 
+Default
+
+
+-> however we cans till override default method as well.  
+
+-> use of default -- Say If I have a interface with 3 methods. 1000 classes implements this interface. But suddenly if I decide to add one more method in interface then 1000 classes will error out !.  So I can add 4th method as 'default' and none of the 1000 classes will error out even though that method is not implemented. 
+
+
+ 
+Abstract v/s Interface
+-----------------------
+
+
+When to use interface ?
+
+When two systems/or two class/or two components talking to each and we would want to establish communication pattern between them. (for example , example of dummyalgorithm and real algorithm).  
+One party will provide interface and other will consume the interface. Interface is kind of a contract. 	 
+
+
+When to use Abstract ?
+
+When we want subclass to meet some kind of structure. We will provide high level structure as a part of abstract and would force subclass to implement it. Example of recipe.  Each of the recipe is really an abstract recipe.  Abstract uses 'extends' so its an inheritance. So there should exist 'IS A' relation ship. This is not true for interface.  Abstract is basically a class only except it can have some methods without implementation. 
+
+
+Syntax - public abstract class AbstractClass
+Syntax - pulic interface InterfaceDeclaration
+
+Syntax - class using abstract needs to use 'extends' keyword.
+Syntax - Class using interface needs to use 'implements' keyword. 
+
+Methods - abstract method should have abstract keyword
+Methods - inside interface class, methods does not have interface keyword. 
+
+Working - Abstract class can have normal methods. Only abstract methods needs to be implemented/overridden. 
+Working - Interface cannot have normal methods. All methods needs to be implemented/overridden compulsory.  
+
+variable - Abstract class can have member variables. 
+variable - Interface can only have constants and not variable. (int a = 5  <-- This is constant)
+
+default - Abstract method inside abstract calss cannot have default method. It has to be implemented in extending class. 
+default - Interface can have default implementation of any method. 
+
+modifier - Abstract can have private modifier. 
+modifier - All methods are public only in interface. 
+
+multiple - Class can extened only one class -- inheritance. 
+multiple - Class can implement multiple interfaces. example : Public class ArrayList implements List, RandomAccess, Clonable
+
+
+-------------------------
+
+Interface represents common Action :
+
+For example : Flyable interface. 
+
+Even though bird and plane doesnt have anything in common but both can perform same action. So both can implement same interface.  
+
+
+Refer - Excersice_Interface_Abstract_Section14_187 - Eclipse. Refer interface package first. Read comments. 
+
+instead of all different file, I can just create a java file with main method. Above that I can also declare interface and class as well. This kind of class might call inner class. Checkout Section4_187
+
+Here in this example :
+
+same piece of code is having two different behavior wheter we are using it for Dog() or for Cat(). This is called polymorphesim
+
+for (Animal animal : animals) {
+			animal.bark();
+		}
+
+Same piece above acts differently based on we are using object for Dog() or Cat().  Same code different behavior is called Polymorphism
+
+This is true for both interface and inheritance (abstract). 
+
+
+
+
+

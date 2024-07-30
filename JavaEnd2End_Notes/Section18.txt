@@ -1,0 +1,165 @@
+Section 18
+----------
+
+Threads 
+
+If we write 3 loops Task1 loop (print 1 to 100), task2 loop (101 to 200) and task 3 loop (print 201 to 300). All will get executed sequentially one by one. 
+
+Even though all three loops are independent of each other, it will print sequentially. This can be executed in parrellel to utilize full strenght of cpu. 
+
+Many times sequential execution do not consume full power of cpu. 
+
+Threads help here to run all the task in parellel. 
+
+Refer Section18_Threads -> withoutthread package. 
+
+---------
+
+There are two ways to implement threads. 
+
+1) Extend Threads class. 
+2) Implement Runnable interface
+
+
+We can extened any class by Thread class. Whatever we need to run in a thread needs to be inside specific signature method - public void run(){ }. 
+
+After creating object of class which is extending thread, we can start exection of thread by calling object.start(). 
+
+Remember that if we call object.run(), then it will be normal exection and not parellel execution. 
+
+Refer : com.udemy.extendThread -> ExtendThread.java.
+
+Note in output that before even task 1 ended, task2 execution started. we can see two execution 1 to 100 and 101 to 200 parrelly. Because task1 and task2 execution started parrelly. 
+
+two threads started.. One for task1 and one for main. thats why task2 and task 3 are still sequentiall. 
+
+====================
+
+Refer : com.udemy.extendThread -> ImplementRunnable.java.
+
+All three threads are in parellel now.  1 thread for task 1, 1 for task 2 and 1 for main . 
+
+For implements runnable class, we have to do one more extra step of creating thread class. and then calling start method over thread class object. 
+
+You can see that all threads are executing in parellel. 
+
+============
+
+State of tasks 
+
+New
+Runnable
+Running
+Block/Waiting. 
+Terminated/dead
+
+Refer Section 18 -> 245 Step 4 video. Theory - State of Threads. 
+
+---------------
+How to give priority to any thread ? 
+
+We can give priority of any thread by task1.setPriority(). 
+
+Priority can be set between 1 to 10 (10 is max, 1 is min and 5 is normal priority(defualt)). 
+
+click on setPriority to check Min Max and normal.
+
+Setting Priority is just a request. It might get honored or might not get honored. 
+
+Half the time request gets honored.. just a probability. 
+
+-------------
+
+If we want to some thread to compulsory finish before executing other operation then we can say 
+task1.join()... Other process with wait till task1 is finished. 
+
+For example 
+
+Task1.start()
+Task2.start()
+task1.join()
+task3.start()
+
+task3 will start only after task1 is finished. (Its not request, its order). Next line will get executed only after task1 is finished. 
+
+
+----------
+
+Thread.sleep(1000)  --> thread will sleep for 1 second.  (static method on Thread class) 
+
+Thread.yield() --> thread is telling to scheduler that I dont need this much cpu and I can give yield to another thread. This is a request. Scheduler will decide whether to honor or not. (Static method on thread class)
+
+HastTable.class has almost all method sycnorized. Means only one thread can execute that method at a time even if you give access to of that hashtable to more threads. 
+
+Join methods needs exception handling which we can do by throws InterruptedException. 
+
+
+=============
+
+What if I want to allow only 3 threads to be executed at any point of time ?
+How can I say that either task1 is complete or task2 is complete then only start task3?
+Running of thread is very tedious task, what if I want to run 100 task ? There is no way to manage them as a group. 
+What if I want result back from the thread after exeucting thread ? 
+
+This all things can be achieved using 'Executer Service'
+
+===============
+
+Same package can access any class in that package. 
+
+==========================
+
+ExecutorService executorService = Executors.newSingleThreadExecutor(); 
+
+ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+		// newSingleThreadExecutor is a static method of Executors class. but we cannot
+		// create object of executors because executors class has created private
+		// constructor to disallow instantiation. Click below to know.
+		// Executors ex = new Executors();
+ 
+newSingleThreadExecutor will execute any single thread at a given time. 
+
+Refer : ExecuterServiceRunnable.java
+
+
+=========================
+
+At a time if you want to define how many threads should remain active : 
+
+	ExecutorService multipleThread = Executors.newFixedThreadPool(2);
+
+This means two threads will be active at any given time. 
+
+Refer ExecuterServiceMultipleThread.java
+
+=======================
+
+Thread without return - implements Runnable. 
+Thread with return - implements Callable. 
+
+
+To return values from the thread, we use callable. 
+For callable, we need to use .submit on executors object. 
+
+Refer com.udemy.callablethread -> callablethread.java
+
+as we want to return string from call method, we will define callable<String>
+
+For callable thread, we need to use executorService.submit(new Task("bhupat")). (note submit. for regular thread it was execute)
+
+To get return value in a variable from thread, data type we use is Future. Becuase this variable is going to get populate in future once thread is finished. 
+
+Future<String>.   -- future is a promise that we will have result at later time. 
+
+To print value from Future... we have to do vairable.get(). 
+
+=====================================
+
+ExecutorService.invokeAll function will help to invoke multiple callable threads. This needs collections as input. 
+
+Refer MultipleCallableRunner ... note that Task class is in same package so we can call in another class. 
+
+ExecutorService.invokeAny -> it will invoke only one thread which is faster and stores one result only. 
+
+Refer  MultipleAnyCallableRunner  ... running this program will give diffrent result based on which thread is faster. Note that it has only String and not future. invokeAny just returns one string directly.

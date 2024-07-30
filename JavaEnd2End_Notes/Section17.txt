@@ -1,0 +1,236 @@
+Section 17
+-----------
+
+Functional Programming
+----------------------
+
+In object oriented programming, we can store object as a variable Student student = new Student. We can invoke methods with this object variable. And we can also pass an object data as an argument to a method. We  pass data to the function. 
+
+Functional programming is thinking about a function. Function is a first class citizen in functional programming. 
+
+Will i be able to store function into a variable, will I be able to pass a function as an argument. Will I be able to get function as a return value ? 
+
+Basic method to print a list : 
+-----------------------------
+
+private static void printBasic(List<String> list) {
+		for (String l : list) {
+			System.out.println(l);
+		}
+	}
+
+Lambda expression/functional programming to print a list:
+----------------------------------------------------------
+
+	private static void printFunctionalProgramming(List<String> list) {
+		list.stream().forEach(element -> System.out.println("Element is:" + element));
+	}
+
+here we are saying ... Take a list...convert into a stream then for each element , print each element. 
+
+Another thing to note is we are passing an action/funciton to the foreach function. 
+
+Refer : FunctionalProgrammingSection17 -> com.udemy.fp
+
+
+Filtering
+===========
+
+Filter the element from the list before any operation. 
+
+Refer : FunctionalProgrammingSection17 -> com.udemy.fp  - printFPFiltering funciton. 
+
+private static void printFPFiltering(List<String> animal) {
+		animal.stream().filter(element -> element.endsWith("at")).forEach(element -> System.out.println(element));
+	}
+	
+What we are doing -> Convert the list into stream. Before printing, filter the element which ends with at . After filtering pick all the elements and pass it to for each and print it. 
+
+Refer for excercise of filter :  com.udemy.fpexcercise in same project. 
+
+
+Next exercise : 
+--------------
+
+sum up all the number in the list. 
+
+
+List<Integer> list = List.of(4,5,9,10); 
+
+functional programing approach : here input will be list with many numbers but we want to reduce it to one number i.e. sum.  
+
+so how it works is : start with 0, adds 0 to first number i.e. 0+4 then add sum to next number (4,5) i.e 9 and so on. Take two numbers and add it , keep going till list is reduced to one sum. 
+
+list.stream().reduce(0,(element1,element2) -> element1 + element2);
+
+Eclipse -> FunctionalProgrammingSection17 -> com.udemy.fpexercise - functionalProgramingSum()
+
+We can actually pass multiple lines as well in lamda expression. Also check whats going on behind the scene. For example check 
+
+FunctionalProgrammingSection17 -> com.udemy.fpexercise  ->  functionalProgramingMultiLine. You will be able to see how it sums up number.  We need return explicitly for multiple lines. 
+
+
+====================
+
+
+in tradional programming we tell system what to do and also tell how to do.. Like initialize one variable 'sum' to 0 then loop around each element and add up number. 
+
+In functional programming we just tell what to do only. No need of declaring variable so its less mutation. 
+
+when we do sum = sum + number. Value of sum keeps on chaing multiple times, this is called mutation of variable. 
+
+
+===========
+
+Whatever action we are passing to the function like foreach or reduce etc.. is called lamda expression. 
+
+example : 
+
+1. (element1,element2) -> element1 + element2
+2. element -> element.endsWith("at")
+3. element -> System.out.println(element)
+
+
+--------
+
+Intermediate operation - means output of stream is another stream. For example filter.
+Terminal operation - means output of stream is not a stream. for example reduce.. 
+
+There can be mutliple intermediate operation but only one terminal operation.
+ 
+Other intermediate operation on the steam : 
+
+Sorting :  list.stream().sorted().forEach(element -> System.out.println(element));
+find distinct element in the steam :  list.stream().distinct().forEach(element -> System.out.println(element));
+
+We can also combine multiple intermediate operation. 
+
+like distinct and then sorted. 
+
+
+map :  to do some operation intermediately. like squaring the list and then returning list with square of numbers. 
+
+list.stream().distinct().map(element -> element*element).forEach(element -> System.out.println(element));
+
+mapping each element to the square of its element. 
+
+
+==============
+
+Intermediate operations exercise: 
+
+Refer excercises -> com.udemy.more.fpexcercise -> FewFPExcercise.java
+
+
+
+Terminal operations exercise : 
+
+
+Terminal operator will have return value at the end of the stream. 
+
+Reduce is one of the terminal operator. 
+
+Optional was introduced in java8. This was to tackle null value. statement might return value or might not also return value. We have a datatype called OptionalInt.
+
+It displays and return value as OptionalInt[45]. we can do optionalvariable.get... to get value. 
+
+Refer FunctionalProgramingSection17 -> com.udemy.fp.terminaloperator -> refer all terminal operation exercise.
+
+Refer all examples and comments as well in detail.
+
+Optinal<Integer>  -> what if list does not have any value, what will be returned as max ?. Typically null. So java introduced optional, there might be a result, there might not be a result. 
+
+toList is also a terminal operation. we can convert list to a stream -> do operation on the list and get list back. 
+
+
+first 10 number square and get it as a list. 
+
+IntStream.range(1, 11).map(element -> element * element);  
+
+here return type of intstream is not actually stream, its IntPipeline. So first we need to convert IntPipeline to stream and the create a list. 
+
+jshell> IntStream.range(1, 11).map(element -> element * element);
+$1 ==> java.util.stream.IntPipeline$4@6574b225
+ 
+With boxed() we can convert IntPipeline to a stream. 
+
+IntStream.range(1, 11).map(element -> element * element).boxed().collect(Collectors.toList());
+
+===============================================================================
+
+Optional --> Majorily ment to avoid null pointer exception. 
+
+Optional datatype also has method to check whether value is present or not. 
+
+jshell> List.of(23,45,67,88).stream().filter(e -> e%2 ==0).max((e1,e2) -> Integer.compare(e1,e2));
+$3 ==> Optional[88]
+
+jshell> $3.get();
+$4 ==> 88
+
+jshell> $3.isPresent();
+$5 ==> true
+
+What if no even number present in the list ? It will handle automatically with Optional. 
+
+jshell> List.of(23,45,67).stream().filter(e -> e%2 ==0).max((e1,e2) -> Integer.compare(e1,e2));
+$6 ==> Optional.empty
+
+its not returning null back or throwing null pointer exception. 
+
+We can say orElse return 0 if its empty. 
+
+jshell> List.of(23,45,67).stream().filter(e -> e%2 ==0).max((e1,e2) -> Integer.compare(e1,e2)).orElse(0);
+$8 ==> 0
+
+orElse is used to provide any defualt value if its empty. 
+
+Stream returns optional back for many methods. Min, max etc..
+
+==================================
+
+Lamda expression is based on Functional Interface. 
+
+
+If I check defination of method such as filter/forEach etc.. it takes input as predicate. 
+
+filter(Predicate<? super T> predicate);
+
+Predicate is a functional interface. Click on predicate to check. 
+
+@FunctionalInterface
+public interface Predicate<T> {. 
+
+This funcitonal interface predicate has only one method unimplemented. i.e. test method. What ever we pass as a predicate to the filter, foreach etc.. it takes as a implementation of test method.  Other methods in predicate interface has default implementation except test. 
+
+Check example in com.udemy.fp.functionalInterface package. Behind the scene java does same thing. 
+
+We saw main three functional interface -> Predicate, Consumer and Function in above exercise. 
+
+---------------------
+
+Functional Programming with Method reference. 
+
+Method reference is to simplify functional programming. 
+
+
+
+Classname :: method name. 
+
+String::length
+System.out::print
+
+Method Reference can be used by our class and methods as well. 
+
+Check com.udemy.fp.methodreference -> FPMethodReference.java
+
+====
+
+Refer last 3 mins seciton of seciont 17 step 17 for stroring functions in a variable and returing function from a method.
+
+Imprentive style of programming -> traditional style
+Declarative style of programming -> functional programming. 
+
+
+
+
