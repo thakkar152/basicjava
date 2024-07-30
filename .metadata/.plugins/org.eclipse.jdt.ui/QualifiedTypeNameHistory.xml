@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="Incrementer"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.locks.ReentrantLock"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.locks.Lock"/>
+    <fullyQualifiedTypeName name="com.udemy.lockreintrant.BiIncrementerWithLocks"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicInteger"/>
+    <fullyQualifiedTypeName name="java.util.Hashtable"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.lang.Character"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ConcurrentMap"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.atomic.LongAdder"/>
+    <fullyQualifiedTypeName name="com.sm.udemy.javatips.MethodAccessModifiers"/>
+    <fullyQualifiedTypeName name="ProjectRunner.SomeNewClassWithInFileNameClass"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="com.udemy.nestedclass.NestedClassRunner"/>
+    <fullyQualifiedTypeName name="com.udemy.nestedclass.NestedClassRunner.InnerClass"/>
+    <fullyQualifiedTypeName name="com.udemy.nestedclass.NestedClassRunner.StaticNestedClass"/>
+    <fullyQualifiedTypeName name="com.udemy.nestedclass.ComparatorClass"/>
+    <fullyQualifiedTypeName name="com.udemy.enumpackage.Season"/>
+    <fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="com.udemy.enumpackage.Animals"/>
+    <fullyQualifiedTypeName name="java.util.logging.Logger"/>
+    <fullyQualifiedTypeName name="com.udemy.util.MySortingUtil"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="java.util.Collection"/>
+    <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="com.udemy.algorithm.BubbleSort"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.nio.file.Path"/>
+    <fullyQualifiedTypeName name="java.nio.file.Paths"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.nio.file.Files"/>
+    <fullyQualifiedTypeName name="java.util.function.Predicate"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+    <fullyQualifiedTypeName name="com.udemy.newapi.h.RecordRunner.Person"/>
+</qualifiedTypeNameHistroy>
